@@ -1,0 +1,14 @@
+.afficheCard {
+    display : flex ; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+}
+
+.afficheImage {
+    width : 200px ; 
+    height : auto ;  
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
+    padding:8px; 
+}

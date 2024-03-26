@@ -1,8 +1,8 @@
 import React from 'react'
-import Home from '../components/Home';
+import Affiches from './affiches';
 
 
 export default function Index() {
-  return <Home />;
+  return <Affiches />;
 }
 

@@ -1,11 +1,21 @@
-.afficheCard {
+.tableauCard {
   position: relative;
   display: flex;
   overflow: hidden;
   border-radius: 8px;
 }
 
-.filmName  {
+.tableauName  {
+  font-weight: bold; 
+}
+
+.auteurName  {
+  font-style: italic; 
+}
+
+.price {
+  font-size: 32px;
+  padding-top: 16px ; 
   font-weight: bold; 
 }
 
@@ -27,11 +37,11 @@
   color: white;
 }
 
-.afficheCard:hover .textOverlay {
+.tableauCard:hover .textOverlay {
   opacity: 1; /* Affiche le texte lors du survol */
 }
 
-.afficheCard:hover .afficheImage {
+.tableauCard:hover .tableauImage {
   -webkit-filter: grayscale(100%); /* Pour Chrome, Safari, Opera */
   filter: grayscale(100%); /* Pour Firefox */
   opacity: 0.1;
@@ -39,7 +49,7 @@
   cursor: pointer;
 }
 
-.afficheImage {
+.tableauImage {
   transition: transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
   display: block;
   width: auto; /* Assurez-vous que l'image s'étend à la taille de son conteneur */

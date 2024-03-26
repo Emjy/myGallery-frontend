@@ -1,0 +1,58 @@
+.logo {
+    width :50px;
+    height: auto;
+    margin: 8px ; 
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 32px;
+  
+}
+
+.headerLinks {
+  display: flex;
+  gap: 16px;
+}
+
+.headerItem {
+  text-decoration: none;
+  color: white;
+}
+
+.headerItem:hover {
+  cursor: pointer;
+  color: white;
+  
+}
+
+.menu {
+  display: flex;
+  gap: 16px;
+  height: 50px;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  font-size: 24px;
+  color: white;
+ 
+}
+
+.menuItem {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  width: 300px;
+  color: white; 
+
+}
+
+.menuItem:hover {
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 1;
+
+}

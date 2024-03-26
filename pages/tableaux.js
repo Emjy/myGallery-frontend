@@ -27,8 +27,10 @@ export default function Tableaux() {
   }, []);
 
   const tableaux = tableauData.map((item, index) => {
+
+    console.log(item.imageName)
     return (
-      <div className={styles.tableauItem}>
+      <div className={styles.tableauItem} key={index}>
         <TableauCard
           tableau={item.imageName}
           name={item.tableauName}

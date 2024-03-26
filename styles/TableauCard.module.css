@@ -53,5 +53,5 @@
   transition: transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
   display: block;
   width: auto; /* Assurez-vous que l'image s'étend à la taille de son conteneur */
-  max-height : 300px ;  
+  max-height : 40vh ;  
 }

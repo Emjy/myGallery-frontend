@@ -43,7 +43,7 @@ export default function UploadFile() {
     formData.append("auteur", auteur);
 
     axios
-      .post("http://localhost:3000/tableaux/", formData, {
+      .post("https://art-papa-backend.vercel.app/tableaux/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

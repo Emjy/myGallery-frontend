@@ -12,7 +12,7 @@ export default function Tableaux() {
 
   // Récupération des affiches
   useEffect(() => {
-    fetch(`http://localhost:3000/tableaux/`)
+    fetch(`https://art-papa-backend.vercel.app/tableaux/`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {

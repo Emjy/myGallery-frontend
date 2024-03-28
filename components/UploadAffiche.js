@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import imageCompression from 'browser-image-compression';
+
 
 // Style
 import styles from "../styles/UploadAffiche.module.css";
@@ -61,11 +63,22 @@ export default function UploadFile() {
       .catch((error) => console.log(error));
   };
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      setAffiche(file);
-      setPreviewUrl(URL.createObjectURL(file)); // Crée l'URL pour l'aperçu
+      const options = {
+        maxSizeMB: 4.9, // (la taille maximale en MegaBytes)
+        maxWidthOrHeight: 1920, // (la largeur ou la hauteur maximale en pixels)
+        useWebWorker: true // (activez les web workers pour une meilleure performance)
+      };
+
+      try {
+        const compressedFile = await imageCompression(file, options); // Compression de l'image
+        setPhoto(compressedFile);
+        setPreviewUrl(URL.createObjectURL(compressedFile)); // Créez l'URL pour l'aperçu de l'image compressée
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 

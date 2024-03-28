@@ -1,0 +1,25 @@
+.page {
+    width: 100vw;
+    height: 100vh;
+}
+
+.photos {
+  display: flex;
+  align-items: center;
+  gap: 16px; 
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 8px;
+  padding-top: 80px;
+  overflow: auto;
+ 
+}
+
+.title {
+  font-size: 48px;
+}
+
+.photoItem {
+  display: flex;  
+}
+

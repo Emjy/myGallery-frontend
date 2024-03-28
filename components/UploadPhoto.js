@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import imageCompression from 'browser-image-compression';
+
 
 // Style
-import styles from "../styles/UploadTableau.module.css";
+import styles from "../styles/UploadPhoto.module.css";
 
 // Composants MUI
 import Button from "@mui/material/Button";
@@ -15,10 +17,10 @@ import axios from "axios";
 
 export default function UploadFile() {
   const fileInputRef = useRef(); // Créez une référence pour le champ de fichier
-  const [tableau, setTableau] = useState(null);
+  const [photo, setPhoto] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  const [tableauName, setTableauName] = useState("");
+  const [photoName, setPhotoName] = useState("");
   const [auteur, setAuteur] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
@@ -35,12 +37,13 @@ export default function UploadFile() {
     width: 1,
   });
 
-  const uploadTableau = () => {
+  const uploadPhoto = () => {
     const formData = new FormData();
-    if (tableau) {
-      formData.append("file", tableau);
+    if (photo) {
+      formData.append("file", photo);
     }
-    formData.append("tableauName", tableauName);
+
+    formData.append("photoName", photoName);
     formData.append("auteur", auteur);
     formData.append("prix", price);
     formData.append("description", description);
@@ -48,7 +51,7 @@ export default function UploadFile() {
 
 
     axios
-      .post("https://art-papa-backend.vercel.app/tableaux/", formData, {
+      .post("https://art-papa-backend.vercel.app/photos/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -56,11 +59,11 @@ export default function UploadFile() {
       .then(() => {
         console.log("image uploaded");
         // Réinitialiser vos états ici
-        setTableauName("");
+        setPhotoName("");
         setAuteur("");
         setDescription("");
         setPrice(0); // Réinitialiser le prix
-        setTableau(null);
+        setPhoto(null);
         setPreviewUrl(null); // Supprimer l'URL de l'aperçu
         // Réinitialisez le champ de fichier
         if (fileInputRef.current) {
@@ -70,11 +73,22 @@ export default function UploadFile() {
       .catch((error) => console.log(error));
   };
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      setTableau(file);
-      setPreviewUrl(URL.createObjectURL(file)); // Crée l'URL pour l'aperçu
+      const options = {
+        maxSizeMB: 4.9, // (la taille maximale en MegaBytes)
+        maxWidthOrHeight: 1920, // (la largeur ou la hauteur maximale en pixels)
+        useWebWorker: true // (activez les web workers pour une meilleure performance)
+      };
+
+      try {
+        const compressedFile = await imageCompression(file, options); // Compression de l'image
+        setPhoto(compressedFile);
+        setPreviewUrl(URL.createObjectURL(compressedFile)); // Créez l'URL pour l'aperçu de l'image compressée
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -104,10 +118,10 @@ export default function UploadFile() {
 
         <TextField
           id="outlined-basic"
-          label="Nom du Tableau"
+          label="Nom de la photo"
           variant="outlined"
-          value={tableauName}
-          onChange={(event) => setTableauName(event.target.value)}
+          value={photoName}
+          onChange={(event) => setPhotoName(event.target.value)}
         />
 
         <TextField
@@ -128,12 +142,12 @@ export default function UploadFile() {
           }}
           onChange={(event) => setPrice(Number(event.target.value))}
         />
-         
+
         <TextField
           id="outlined-basic"
           label="Description"
           variant="outlined"
-          value={description} 
+          value={description}
           onChange={(event) => setDescription(event.target.value)}
         />
 
@@ -143,9 +157,9 @@ export default function UploadFile() {
           variant="contained"
           tabIndex={-1}
           startIcon={<CloudUploadIcon />}
-          onClick={() => uploadTableau()}
+          onClick={() => uploadPhoto()}
         >
-          Envoi
+          Envoi photo
         </Button>
       </div>
     </div>

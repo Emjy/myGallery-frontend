@@ -35,7 +35,7 @@ export default function Header() {
         |
         <MenuItem nom={"tableaux"} />
         |
-        <MenuItem nom={"photographies"} />
+        <MenuItem nom={"photos"} />
         |
         <MenuItem nom={"expositions"} />
       </div>}

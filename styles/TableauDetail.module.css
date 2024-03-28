@@ -1,6 +1,5 @@
 .page {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   width: 100vw;
@@ -63,10 +62,10 @@
    /* Ajustez 900px selon le point de rupture souhaité */
    .tableau,
    .tableauVisual {
-     max-width: 49vw;
+     max-width: 45vw;
    }
 
    .desc {
-     max-width: 50vw;
+     max-width: 45vw;
    }
  }

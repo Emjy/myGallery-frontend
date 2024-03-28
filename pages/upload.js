@@ -6,6 +6,7 @@ import styles from "../styles/Upload.module.css";
 //components
 import UploadAffiche from "../components/UploadAffiche";
 import UploadTableau from "../components/UploadTableau";
+import UploadPhoto from "../components/UploadPhoto";
 
 // components MUI
 import Box from "@mui/material/Box";
@@ -44,6 +45,8 @@ export default function upload() {
 
       {file == 10 && <UploadAffiche />}
       {file == 20 && <UploadTableau />}
+      {file == 30 && <UploadPhoto />}
+
     </div>
   );
 }

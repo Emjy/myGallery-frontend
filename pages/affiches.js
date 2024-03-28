@@ -41,7 +41,7 @@ export default function Affiches() {
   return (
     <div className={styles.page}>
       <Header />
-
+      {'Toutes les affiches sont imprimables et encadrables avec livraison incluse avec différents formats'}
       <div className={styles.affiches}>{affiches}</div>
     </div>
   );

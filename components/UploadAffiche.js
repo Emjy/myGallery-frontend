@@ -97,6 +97,7 @@ export default function UploadFile() {
           id="outlined-basic"
           label="Nom du film"
           variant="outlined"
+          value={filmName}
           onChange={(event) => setFilmName(event.target.value)}
         />
 
@@ -104,6 +105,7 @@ export default function UploadFile() {
           id="outlined-basic"
           label="Nom du réalisateur"
           variant="outlined"
+          value={realName}
           onChange={(event) => setRealName(event.target.value)}
         />
 

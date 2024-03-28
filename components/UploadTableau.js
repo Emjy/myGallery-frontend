@@ -41,6 +41,8 @@ export default function UploadFile() {
     }
     formData.append("tableauName", tableauName);
     formData.append("auteur", auteur);
+    formData.append("prix", price);
+
 
     axios
       .post("https://art-papa-backend.vercel.app/tableaux/", formData, {
@@ -50,10 +52,12 @@ export default function UploadFile() {
       })
       .then(() => {
         console.log("image uploaded");
-        // Réinitialisez vos états ici
+        // Réinitialiser vos états ici
         setTableauName("");
         setAuteur("");
+        setPrice(0); // Réinitialiser le prix
         setTableau(null);
+        setPreviewUrl(null); // Supprimer l'URL de l'aperçu
         // Réinitialisez le champ de fichier
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
@@ -98,6 +102,7 @@ export default function UploadFile() {
           id="outlined-basic"
           label="Nom du Tableau"
           variant="outlined"
+          value={tableauName}
           onChange={(event) => setTableauName(event.target.value)}
         />
 
@@ -105,6 +110,7 @@ export default function UploadFile() {
           id="outlined-basic"
           label="Auteur"
           variant="outlined"
+          value={auteur}
           onChange={(event) => setAuteur(event.target.value)}
         />
 
@@ -112,11 +118,11 @@ export default function UploadFile() {
           id="outlined-number"
           label="Prix"
           type="number"
+          value={price}
           InputLabelProps={{
             shrink: true,
           }}
-          onChange={(event) => setPrice(event.target.value)}
-
+          onChange={(event) => setPrice(Number(event.target.value))}
         />
          
 

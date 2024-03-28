@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"; 
 
 // Style
 import styles from "../styles/AfficheCard.module.css";

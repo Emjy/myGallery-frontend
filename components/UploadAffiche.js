@@ -67,15 +67,17 @@ export default function UploadFile() {
     const file = event.target.files[0];
     if (file) {
       const options = {
-        maxSizeMB: 4.9, // (la taille maximale en MegaBytes)
-        maxWidthOrHeight: 1920, // (la largeur ou la hauteur maximale en pixels)
-        useWebWorker: true // (activez les web workers pour une meilleure performance)
+        maxSizeMB: 4.9, // Taille maximale en MegaBytes
+        maxWidthOrHeight: 1920, // Largeur ou hauteur maximale en pixels
+        useWebWorker: true,
+        fileType: 'image/jpeg', // Conversion en JPEG
+        convertSize: 5000000, // Convertir les images plus grandes que 5 MB en JPEG (si elles ne sont pas déjà en JPEG)
       };
 
       try {
-        const compressedFile = await imageCompression(file, options); // Compression de l'image
+        const compressedFile = await imageCompression(file, options);
         setPhoto(compressedFile);
-        setPreviewUrl(URL.createObjectURL(compressedFile)); // Créez l'URL pour l'aperçu de l'image compressée
+        setPreviewUrl(URL.createObjectURL(compressedFile));
       } catch (error) {
         console.error(error);
       }

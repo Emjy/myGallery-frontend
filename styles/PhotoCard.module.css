@@ -2,21 +2,20 @@
   position: relative;
   display: flex;
   overflow: hidden;
-  border-radius: 8px;
 }
 
-.photoName  {
-  font-weight: bold; 
+.photoName {
+  font-weight: bold;
 }
 
-.auteurName  {
-  font-style: italic; 
+.auteurName {
+  font-style: italic;
 }
 
 .price {
   font-size: 32px;
-  padding-top: 16px ; 
-  font-weight: bold; 
+  padding-top: 16px;
+  font-weight: bold;
 }
 
 .textOverlay {
@@ -28,30 +27,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; 
-  opacity: 0; /* Masque le texte initialement */
+  justify-content: center;
+  opacity: 0;
+  /* Masque le texte initialement */
   transition: opacity 0.5s ease;
-  pointer-events: none; /* Permet les interactions de survol avec l'image en dessous */
+  pointer-events: none;
+  /* Permet les interactions de survol avec l'image en dessous */
   text-align: center;
   padding: 8px;
   color: white;
 }
 
 .photoCard:hover .textOverlay {
-  opacity: 1; /* Affiche le texte lors du survol */
+  opacity: 1;
+  /* Affiche le texte lors du survol */
 }
 
 .photoCard:hover .photoImage {
-  -webkit-filter: grayscale(100%); /* Pour Chrome, Safari, Opera */
-  filter: grayscale(100%); /* Pour Firefox */
+  -webkit-filter: grayscale(100%);
+  /* Pour Chrome, Safari, Opera */
+  filter: grayscale(100%);
+  /* Pour Firefox */
   opacity: 0.1;
-  transform: scale(1.3); /* Zoom l'image */
+  transform: scale(1.3);
+  /* Zoom l'image */
   cursor: pointer;
 }
 
 .photoImage {
   transition: transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
   display: block;
-  width: auto; /* Assurez-vous que l'image s'étend à la taille de son conteneur */
-  max-height : 40vh ;  
+  max-width: 100%; 
 }

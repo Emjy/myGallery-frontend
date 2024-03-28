@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 // Composants
 import Header from "../components/Header";
@@ -49,9 +49,13 @@ export default function Photos() {
     <div className={styles.page}>
       <Header />
 
-      <div className={styles.photos}>
-        {photos}
-        </div>
+      <div className={styles.photoContainer}>
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 700: 2, 1050: 3, 1400: 4, 1750: 5 }}
+          className={styles.photos}>
+          <Masonry gutter="8px">{photos}</Masonry>
+        </ResponsiveMasonry>
+      </div>
+
     </div>
   );
 }

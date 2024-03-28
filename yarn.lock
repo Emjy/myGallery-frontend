@@ -1738,6 +1738,11 @@ domexception@^4.0.0:
   dependencies:
     webidl-conversions "^7.0.0"
 
+ejs@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/ejs/-/ejs-0.7.1.tgz#6dab41cbdee572986db328a2a8d22040f20fba7c"
+  integrity sha512-f1OYBTjcMoV7ZvXx2yEdwqVWgPKmObDitDCjuo/JJlCjv8+jhI0KOwD3PPyp1mnG/uqFf6YApj2ktzjQSGKKAg==
+
 electron-to-chromium@^1.4.668:
   version "1.4.715"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.715.tgz#bb16bcf2a3537962fccfa746b5c98c5f7404ff46"
@@ -2898,6 +2903,13 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
+masonry@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/masonry/-/masonry-0.0.2.tgz#c06a0b2efc043727eadd16b35fdae93a3908f432"
+  integrity sha512-aYfcEVkuziTYJy82FU1biVATXIK4pJeNjC+cWUIZqcytiwcWL4nAULwrSvfjCqRoKr5iKuktNkjYFNddXB90WQ==
+  dependencies:
+    ejs "0.7.1"
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
@@ -3297,6 +3309,11 @@ react-is@^18.0.0, react-is@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-responsive-masonry@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-responsive-masonry/-/react-responsive-masonry-2.2.0.tgz#95ba1fe16295f2071dbe98e72420167aad4e7e8f"
+  integrity sha512-IYbnfe2tWCZ3pvyTLyBWPj7uv5ZmNOULYMcAZi5a47ZLhSotOck1vkkISq6gP2qiyWdMvPfeMhjvYzUYGw9BOQ==
 
 react-transition-group@^4.4.5:
   version "4.4.5"

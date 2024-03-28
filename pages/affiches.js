@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 // Composants
 import AfficheCard from "../components/AfficheCard";
 import Header from "../components/Header";
-import SearchBar from "../components/searchBar";
+import SearchBar from "../components/SearchBar"; //modifs lien 
 
 
 // Style
@@ -49,7 +49,7 @@ export default function Affiches() {
       />
     </div>
   ));
-  
+
   return (
     <div className={styles.page}>
       <Header />

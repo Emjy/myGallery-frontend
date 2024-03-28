@@ -27,6 +27,7 @@
 .searchContainer {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 16px;
   padding: 16px 0px;
 }

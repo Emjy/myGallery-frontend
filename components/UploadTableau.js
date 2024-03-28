@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import imageCompression from 'browser-image-compression';
 
 // Composants 
-import CustomSnackbar from "./customSnackBar";
+import CustomSnackbar from "./CustomSnackBar";
 
 // Style
 import styles from "../styles/UploadTableau.module.css";

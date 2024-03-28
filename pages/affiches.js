@@ -3,12 +3,22 @@ import React, { useState, useEffect, useRef } from "react";
 // Composants
 import AfficheCard from "../components/AfficheCard";
 import Header from "../components/Header";
+import SearchBar from "../components/searchBar";
+
 
 // Style
 import styles from "../styles/Affiches.module.css";
+import MenuItem from "../components/MenuItem";
 
 export default function Affiches() {
+
   const [affichesData, setAffichesData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (query) => {
+    setSearchQuery(query);
+  };
+
 
   // Récupération des affiches
   useEffect(() => {
@@ -26,22 +36,28 @@ export default function Affiches() {
       });
   }, []);
 
-  const affiches = affichesData.map((item, index) => {
-    return (
-      <div className={styles.afficheItem} key={index}>
-        <AfficheCard
-          affiche={item.imageName}
-          name={item.filmName}
-          real={item.realName}
-        />
-      </div>
-    );
+  const filteredAffiches = affichesData.filter((item) => {
+    return item.filmName.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
+  const affiches = filteredAffiches.map((item, index) => (
+    <div className={styles.afficheItem} key={index}>
+      <AfficheCard
+        affiche={item.imageName}
+        name={item.filmName}
+        real={item.realName}
+      />
+    </div>
+  ));
+  
   return (
     <div className={styles.page}>
       <Header />
-      {'Toutes les affiches sont imprimables et encadrables avec livraison incluse avec différents formats'}
+
+      <div className={styles.searchContainer}>
+        <SearchBar onSearchChange={handleSearchChange} values={affichesData} label={'Rechercher une affiche'} search={'filmName'} />
+      </div>
+
       <div className={styles.affiches}>{affiches}</div>
     </div>
   );

@@ -1,48 +1,62 @@
 .page {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   width: 100vw;
   height: 80vh;
-  gap: 80px ; 
+  gap: 80px;
   color: white;
+  flex-wrap: wrap;
+    overflow: auto;
+}
+
+.tableau {
+  max-height: 75vh;
+  max-width: 75vw;
 }
 
 .tableauVisual {
-  max-height: 40vh;
-  width: auto;
-  border: 8px solid #fff; /* Simuler un cadre autour du tableau */
+  max-height: 75vh;
+  max-width: 75vw;
+  border: 8px solid #fff;
+  /* Simuler un cadre autour du tableau */
   border-radius: 16px;
-  transform: perspective(800px) rotateY(25deg) scale(0.9) rotateX(10deg);
+  transform: perspective(800px) rotateY(12deg) scale(0.8) rotateX(10deg);
   opacity: 0.5;
   transition: 0.6s ease all;
-}
+ }
 
 .tableauVisual:hover {
-  transform: perspective(800px) rotateY(-15deg) translateY(-25px) rotateX(10deg) scale(1);
+  transform: perspective(800px) rotateY(-12deg) translateY(-12px) rotateX(10deg) scale(0.9);
   opacity: 1;
-}
+ }
 
 .desc {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    opacity: 0.5
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.5;
+  width: 60vw;
+  height: 30vh;
+  gap: 16px;
 }
 
 .name {
-    font-size: 50px;
-    font-weight: bold;
+  font-size: 50px;
+  font-weight: bold;
 }
 
 .auteur {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .prix {
-    font-size: 50px;
+  font-size: 50px;
 }
 
-
-
+.description {
+  font-size: 16px;
+  padding: 32px 0px;
+  text-align: justify;
+}

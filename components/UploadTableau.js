@@ -21,6 +21,7 @@ export default function UploadFile() {
   const [tableauName, setTableauName] = useState("");
   const [auteur, setAuteur] = useState("");
   const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState("");
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -42,6 +43,8 @@ export default function UploadFile() {
     formData.append("tableauName", tableauName);
     formData.append("auteur", auteur);
     formData.append("prix", price);
+    formData.append("description", description);
+
 
 
     axios
@@ -55,6 +58,7 @@ export default function UploadFile() {
         // Réinitialiser vos états ici
         setTableauName("");
         setAuteur("");
+        setDescription("");
         setPrice(0); // Réinitialiser le prix
         setTableau(null);
         setPreviewUrl(null); // Supprimer l'URL de l'aperçu
@@ -125,6 +129,13 @@ export default function UploadFile() {
           onChange={(event) => setPrice(Number(event.target.value))}
         />
          
+        <TextField
+          id="outlined-basic"
+          label="Auteur"
+          variant="outlined"
+          value={description} 
+          onChange={(event) => setDescription(event.target.value)}
+        />
 
         <Button
           component="label"

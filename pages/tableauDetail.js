@@ -32,7 +32,7 @@ export default function tableauDetail() {
       <Header />
 
       <div className={styles.page}>
-        
+
         <div className={styles.tableau}>
           <img
             src={tableau.imageName}
@@ -40,7 +40,6 @@ export default function tableauDetail() {
           />
         </div>
         
-
         <div className={styles.desc}>
           <div className={styles.name}> {tableau.tableauName}</div>
           <div className={styles.auteur}> {tableau.auteur}</div>

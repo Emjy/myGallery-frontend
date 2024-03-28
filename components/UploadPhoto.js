@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import imageCompression from 'browser-image-compression';
 
+// Composants 
+import CustomSnackbar from "./customSnackBar";
 
 // Style
 import styles from "../styles/UploadPhoto.module.css";
@@ -24,6 +26,8 @@ export default function UploadFile() {
   const [auteur, setAuteur] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
+
+  const [open, setOpen] = useState(false)
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -69,6 +73,8 @@ export default function UploadFile() {
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
+        setOpen(true)
+        
       })
       .catch((error) => console.log(error));
   };
@@ -177,6 +183,14 @@ export default function UploadFile() {
         >
           Envoi photo
         </Button>
+
+        <CustomSnackbar
+          open={open}
+          handleClose={() => setOpen(false)}
+          message="Photo envoyée"
+          duration={3000}
+        />
+
       </div>
     </div>
   );

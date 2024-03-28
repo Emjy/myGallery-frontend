@@ -1,18 +1,18 @@
 .page {
-    width: 100vw;
+  width: 100vw;
     height: 100vh;
 }
 
 .affiches {
   display: flex;
-  gap: 16px; 
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
   padding: 8px;
   height: 75vh;
   overflow: auto;
- 
+
 }
 
 .title {
@@ -20,14 +20,13 @@
 }
 
 .afficheItem {
-  display: flex; 
+  display: flex;
 }
 
 
 .searchContainer {
-display: flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 16px 0px;
 }
- 

@@ -52,7 +52,7 @@ export default function Photos() {
       <div className={styles.photoContainer}>
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 700: 2, 1050: 3, 1400: 4, 1750: 5 }}
           className={styles.photos}>
-          <Masonry gutter="8px">{photos}</Masonry>
+          <Masonry gutter="16px">{photos}</Masonry>
         </ResponsiveMasonry>
       </div>
 

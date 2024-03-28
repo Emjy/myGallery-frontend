@@ -54,7 +54,19 @@ export default function SearchBar(props) {
                 onInputChange={(event, newInputValue) => {
                     props.onSearchChange(newInputValue);
                 }}
-                renderInput={(params) => <TextField {...params} label={props.label} sx={{ width: '33vw' }} />}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label={props.label}
+                        sx={{
+                            width: {
+                                xs: '60vw', // sur petits écrans
+                                md: '33vw'  // sur écrans moyens et grands
+                            },
+                            ...customMuiStyles // Assurez-vous d'appliquer également vos styles personnalisés ici si nécessaire
+                        }}
+                    />
+                )}
             />
         </>
 

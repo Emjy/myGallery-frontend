@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import imageCompression from 'browser-image-compression';
 
+// Composants 
+import CustomSnackbar from "./customSnackBar";
 
 // Style
 import styles from "../styles/UploadAffiche.module.css";
@@ -10,8 +12,7 @@ import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
-
+import { styled } from "@mui/material/styles"; 
 // Transfert des data vers cloudinary
 import axios from "axios";
 
@@ -23,14 +24,14 @@ export default function UploadFile() {
   const [filmName, setFilmName] = useState("");
   const [realName, setRealName] = useState("");
 
+  const [open, setOpen] = useState(false)
+
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
     height: 1,
     overflow: "hidden",
     position: "absolute",
-    bottom: 0,
-    left: 0,
     whiteSpace: "nowrap",
     width: 1,
   });
@@ -43,22 +44,22 @@ export default function UploadFile() {
     formData.append("filmName", filmName);
     formData.append("realName", realName);
 
-    axios
-      .post("https://art-papa-backend.vercel.app/affiches/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+    axios.post("https://art-papa-backend.vercel.app/affiches/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
       .then(() => {
         console.log("image uploaded");
         // Réinitialisez vos états ici
         setFilmName("");
         setRealName("");
         setAffiche(null);
-        // Réinitialisez le champ de fichier
+        setPreviewUrl(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
+        setOpen(true);
       })
       .catch((error) => console.log(error));
   };
@@ -67,11 +68,11 @@ export default function UploadFile() {
     const file = event.target.files[0];
     if (file) {
       const options = {
-        maxSizeMB: 4.9, // Taille maximale en MegaBytes
-        maxWidthOrHeight: 1920, // Largeur ou hauteur maximale en pixels
+        maxSizeMB: 4.9,
+        maxWidthOrHeight: 1920,
         useWebWorker: true,
-        fileType: 'image/jpeg', // Conversion en JPEG
-        convertSize: 5000000, // Convertir les images plus grandes que 5 MB en JPEG (si elles ne sont pas déjà en JPEG)
+        fileType: 'image/jpeg',
+        convertSize: 5000000,
       };
 
       try {
@@ -83,64 +84,60 @@ export default function UploadFile() {
       }
     }
   };
-
+ 
   return (
     <div className={styles.page}>
       <div className={styles.uploadForm}>
         <Button
-          component="label"
-          role={undefined}
           variant="contained"
-          tabIndex={-1}
           startIcon={<AddPhotoAlternateIcon />}
-          ref={fileInputRef}
-          onChange={(event) => handleChange(event)}
+          onClick={() => fileInputRef.current && fileInputRef.current.click()}
           className={styles.formItem}
-
         >
           Image
-          <VisuallyHiddenInput type="file" />
         </Button>
+        <VisuallyHiddenInput
+          type="file"
+          onChange={handleChange}
+          ref={fileInputRef}
+        />
 
         {previewUrl && (
-          <img
-            src={previewUrl}
-            alt="Preview"
-            style={{ display: "block", maxHeight: "500px" }}
-          />
+          <img src={previewUrl} alt="Preview" style={{ maxHeight: "500px" }} />
         )}
 
         <TextField
-          id="outlined-basic-1"
           label="Nom du film"
           variant="outlined"
           value={filmName}
           onChange={(event) => setFilmName(event.target.value)}
           className={styles.formItem}
-
         />
 
         <TextField
-          id="outlined-basic-2"
           label="Nom du réalisateur"
           variant="outlined"
           value={realName}
           onChange={(event) => setRealName(event.target.value)}
           className={styles.formItem}
-
         />
 
         <Button
-          component="label"
-          role={undefined}
           variant="contained"
-          tabIndex={-1}
           startIcon={<CloudUploadIcon />}
-          onClick={() => uploadAffiche()}
+          onClick={uploadAffiche}
           className={styles.formItem}
         >
           Envoi Affiche
         </Button>
+
+        <CustomSnackbar
+          open={open}
+          handleClose={() => setOpen(false)}
+          message="Affiche envoyée"
+          duration={3000}
+        />
+
       </div>
     </div>
   );

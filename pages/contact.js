@@ -1,13 +1,32 @@
-import React from 'react'
+import React from "react";
 
-// Components 
-import Header from '../components/Header'
+// Style
+import styles from "../styles/Contact.module.css";
+
+// Components
+import Header from "../components/Header";
+
+// mui components
+import PhoneIphoneRoundedIcon from "@mui/icons-material/PhoneIphoneRounded";
+import AlternateEmailRoundedIcon from "@mui/icons-material/AlternateEmailRounded";
 
 export default function contact() {
   return (
     <div>
-      <Header/>
+      <Header />
 
+      <div className={styles.page}>
+        <div className={styles.contacts}>
+          <div className={styles.contactItem}>
+            <PhoneIphoneRoundedIcon className={styles.icon} />
+            {"06 20 21 69 35"}
+          </div>
+          <div className={styles.contactItem}>
+            <AlternateEmailRoundedIcon className={styles.icon} />
+            {"fogiraud@gmail.com"}
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

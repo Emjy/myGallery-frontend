@@ -105,6 +105,8 @@ export default function UploadFile() {
           startIcon={<AddPhotoAlternateIcon />}
           ref={fileInputRef}
           onChange={(event) => handleChange(event)}
+          className={styles.formItem}
+
         >
           Image
           <VisuallyHiddenInput type="file" />
@@ -124,6 +126,8 @@ export default function UploadFile() {
           variant="outlined"
           value={photoName}
           onChange={(event) => setPhotoName(event.target.value)}
+          className={styles.formItem}
+
         />
 
         <TextField
@@ -132,6 +136,8 @@ export default function UploadFile() {
           variant="outlined"
           value={auteur}
           onChange={(event) => setAuteur(event.target.value)}
+          className={styles.formItem}
+
         />
 
         <TextField
@@ -143,14 +149,20 @@ export default function UploadFile() {
             shrink: true,
           }}
           onChange={(event) => setPrice(Number(event.target.value))}
+          className={styles.formItem}
+
         />
 
         <TextField
-          id="outlined-basic"
+          id="outlined-multiline-static"
           label="Description"
-          variant="outlined"
+          multiline
+          maxRows={30}
+          rows={5} 
           value={description}
           onChange={(event) => setDescription(event.target.value)}
+          className={styles.formItem}
+
         />
 
         <Button
@@ -160,6 +172,8 @@ export default function UploadFile() {
           tabIndex={-1}
           startIcon={<CloudUploadIcon />}
           onClick={() => uploadPhoto()}
+          className={styles.formItem}
+
         >
           Envoi photo
         </Button>

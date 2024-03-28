@@ -1,34 +1,38 @@
 .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100vw;
+    height: 80vh;
 }
 
 .logoContainer {
-    display: flex ; 
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .logo {
-    height: 30vw ; 
+    height: 30vw;
 }
 
 .desc {
-    display: flex ; 
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
-    gap : 16px
- 
+    gap: 16px
 }
 
-.title { 
-    font-size: 50px; 
+.title {
+    font-size: 50px;
     text-align: center;
 }
 
 .text {
     font-size: 12px;
-    padding : 0px 30px ; 
+    padding: 0px 30px;
     text-align: justify;
 }

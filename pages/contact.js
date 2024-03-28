@@ -16,6 +16,11 @@ export default function contact() {
       <Header />
 
       <div className={styles.page}>
+
+        <div className={styles.logoContainer}>
+          <img src="logo.png" className={styles.logo}></img>
+        </div>
+        
         <div className={styles.contacts}>
           <div className={styles.contactItem}>
             <PhoneIphoneRoundedIcon className={styles.icon} />
@@ -23,10 +28,11 @@ export default function contact() {
           </div>
           <div className={styles.contactItem}>
             <AlternateEmailRoundedIcon className={styles.icon} />
-            {"fogiraud@gmail.com"}
+            {"giraudliard@gmail.com"}
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

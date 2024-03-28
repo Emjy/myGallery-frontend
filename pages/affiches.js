@@ -4,11 +4,10 @@ import React, { useState, useEffect, useRef } from "react";
 import AfficheCard from "../components/AfficheCard";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar"; //modifs lien 
-
+import MenuItem from "../components/MenuItem";
 
 // Style
 import styles from "../styles/Affiches.module.css";
-import MenuItem from "../components/MenuItem";
 
 export default function Affiches() {
 

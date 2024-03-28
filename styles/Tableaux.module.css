@@ -5,12 +5,11 @@
 
 .tableaux {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px; 
   flex-wrap: wrap;
   justify-content: center;
   padding: 8px;
-  padding-top: 80px;
   height: 80vh ; 
   overflow: auto;
  

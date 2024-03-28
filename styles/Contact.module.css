@@ -1,5 +1,6 @@
 .page {
     display: flex ; 
+        flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100vw;
@@ -21,4 +22,14 @@
 
 .icon {
     font-size : 40px ; 
+}
+
+.logoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    height: 30vw;
 }

@@ -85,7 +85,7 @@ export default function UploadFile() {
 
       try {
         const compressedFile = await imageCompression(file, options);
-        setPhoto(compressedFile);
+        setTableau(compressedFile);
         setPreviewUrl(URL.createObjectURL(compressedFile));
       } catch (error) {
         console.error(error);
@@ -104,6 +104,8 @@ export default function UploadFile() {
           startIcon={<AddPhotoAlternateIcon />}
           ref={fileInputRef}
           onChange={(event) => handleChange(event)}
+          className={styles.formItem}
+
         >
           Image
           <VisuallyHiddenInput type="file" />
@@ -123,6 +125,7 @@ export default function UploadFile() {
           variant="outlined"
           value={tableauName}
           onChange={(event) => setTableauName(event.target.value)}
+          className={styles.formItem}
         />
 
         <TextField
@@ -131,6 +134,8 @@ export default function UploadFile() {
           variant="outlined"
           value={auteur}
           onChange={(event) => setAuteur(event.target.value)}
+          className={styles.formItem}
+
         />
 
         <TextField
@@ -142,14 +147,20 @@ export default function UploadFile() {
             shrink: true,
           }}
           onChange={(event) => setPrice(Number(event.target.value))}
+          className={styles.formItem}
+
         />
          
         <TextField
-          id="outlined-basic"
+          id="outlined-multiline-static"
           label="Description"
-          variant="outlined"
+          multiline
+          maxRows={30}
+          rows={5} 
           value={description} 
           onChange={(event) => setDescription(event.target.value)}
+          className={styles.formItem}
+
         />
 
         <Button
@@ -159,8 +170,10 @@ export default function UploadFile() {
           tabIndex={-1}
           startIcon={<CloudUploadIcon />}
           onClick={() => uploadTableau()}
+          className={styles.formItem}
+
         >
-          Envoi
+          Envoi Tableau
         </Button>
       </div>
     </div>

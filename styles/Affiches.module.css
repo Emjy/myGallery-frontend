@@ -5,12 +5,12 @@
 
 .affiches {
   display: flex;
-  align-items: center;
   gap: 16px; 
   flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
   padding: 8px;
-  height: 80vh;
+  height: 75vh;
   overflow: auto;
  
 }
@@ -28,6 +28,6 @@
 display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 32px; 
+  padding: 16px 0px;
 }
  

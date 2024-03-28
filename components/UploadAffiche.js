@@ -76,7 +76,7 @@ export default function UploadFile() {
 
       try {
         const compressedFile = await imageCompression(file, options);
-        setPhoto(compressedFile);
+        setAffiche(compressedFile);
         setPreviewUrl(URL.createObjectURL(compressedFile));
       } catch (error) {
         console.error(error);
@@ -95,6 +95,8 @@ export default function UploadFile() {
           startIcon={<AddPhotoAlternateIcon />}
           ref={fileInputRef}
           onChange={(event) => handleChange(event)}
+          className={styles.formItem}
+
         >
           Image
           <VisuallyHiddenInput type="file" />
@@ -109,19 +111,23 @@ export default function UploadFile() {
         )}
 
         <TextField
-          id="outlined-basic"
+          id="outlined-basic-1"
           label="Nom du film"
           variant="outlined"
           value={filmName}
           onChange={(event) => setFilmName(event.target.value)}
+          className={styles.formItem}
+
         />
 
         <TextField
-          id="outlined-basic"
+          id="outlined-basic-2"
           label="Nom du réalisateur"
           variant="outlined"
           value={realName}
           onChange={(event) => setRealName(event.target.value)}
+          className={styles.formItem}
+
         />
 
         <Button
@@ -131,8 +137,9 @@ export default function UploadFile() {
           tabIndex={-1}
           startIcon={<CloudUploadIcon />}
           onClick={() => uploadAffiche()}
+          className={styles.formItem}
         >
-          Envoi
+          Envoi Affiche
         </Button>
       </div>
     </div>

@@ -30,7 +30,7 @@
 
 .menu {
   display: flex;
-  gap: 16px;
+  gap: 8px;
   height: 50px;
   width: 100vw;
   justify-content: center;
@@ -62,7 +62,8 @@
 /* Pour les écrans de taille moyenne à grande */
 @media screen and (min-width: 768px) {
   .menu {
-    font-size: 24px; /* Taille de texte par défaut pour les écrans moyens à grands */
+    font-size: 20px;
+      /* Taille de texte par défaut pour les écrans moyens à grands */
   }
 
   .header {
@@ -73,9 +74,10 @@
 /* Pour les petits écrans comme les smartphones */
 @media screen and (max-width: 767px) {
   .menu {
-    font-size: 10px; /* Réduire la taille du texte pour les petits écrans */
+    font-size: 8px;
+      /* Réduire la taille du texte pour les petits écrans */
   }
   .header {
-    font-size: 10px; /* Taille de texte par défaut pour les écrans moyens à grands */
+    font-size: 8px; /* Taille de texte par défaut pour les écrans moyens à grands */
   }
 }

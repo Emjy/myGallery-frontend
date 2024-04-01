@@ -68,7 +68,7 @@ export default function adminFichiers() {
 
     const deleteAffiche = (afficheId) => {
         fetch(`https://art-papa-backend.vercel.app/affiches/${afficheId}`, {
-            method: 'DELETE',
+            method: 'POST',
         })
             .then(response => response.json())
             .then(data => {

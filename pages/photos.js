@@ -14,6 +14,8 @@ export default function Photos() {
   const router = useRouter();
 
   const [photoData, setPhotoData] = useState([]);
+  const [fullPage, setFullPage] = useState('');
+
 
   // Récupération des photos
   useEffect(() => {
@@ -31,31 +33,47 @@ export default function Photos() {
       });
   }, []);
 
+  const handleCloseFullPage = () => {
+    setFullPage(''); // Efface l'URL de l'image, ce qui ferme la surimpression
+  };
+
   const photos = photoData.map((item, index) => {
 
     return (
-      <div className={styles.photoItem} key={index} >
+      <div className={styles.photoItem} key={index} onClick={(e) => {
+        e.stopPropagation(); // Empêche l'événement de clic de se propager
+        setFullPage(item.imageName);
+      }} >
         <PhotoCard
           photo={item.imageName}
           name={item.photoName}
           auteur={item.auteur}
           prix={item.prix}
+
         />
       </div>
     );
   });
 
   return (
-    <div className={styles.page}>
-      <Header />
 
-      <div className={styles.photoContainer}>
-        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 700: 2, 1050: 3, 1400: 4, 1750: 5 }}
-          className={styles.photos}>
-          <Masonry gutter="16px">{photos}</Masonry>
-        </ResponsiveMasonry>
+    <>
+      <div className={styles.page} style={{ filter: fullPage ? 'blur(8px)' : '' }}>
+        <Header />
+
+        <div className={styles.photoContainer} >
+          <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 700: 2, 1050: 3, 1400: 4, 1750: 5 }}
+            className={styles.photos}>
+            <Masonry gutter="16px">{photos}</Masonry>
+          </ResponsiveMasonry>
+        </div>
+
+
       </div>
+      {fullPage && <div className={styles.photoFullPage} onClick={() => handleCloseFullPage()}>
+        <img src={fullPage} />
+      </div>}
+    </>
 
-    </div>
   );
 }

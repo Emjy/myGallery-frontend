@@ -1,0 +1,31 @@
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    gap: 16px;
+}
+
+.table {
+    width: 95vw;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.itemNav {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.itemNav:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}

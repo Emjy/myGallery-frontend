@@ -21,6 +21,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
 
 export default function upload() {
@@ -40,6 +41,10 @@ export default function upload() {
     router.push('./signIn')
   }
 
+  const handleGestion = () => {
+    router.push('./adminFichiers')
+  }
+
   // Récupération des affiches
   useEffect(() => {
     if (!token) {
@@ -54,9 +59,14 @@ export default function upload() {
       {token && <div className={styles.page}>
 
         <div className={styles.logout}>
+          <IconButton onClick={() => handleGestion()} aria-label="Gestion">
+            <EditRoundedIcon />
+          </IconButton>
+
           <IconButton onClick={() => handleLogOut()} aria-label="logout">
             <LogoutIcon />
           </IconButton>
+
         </div>
 
 

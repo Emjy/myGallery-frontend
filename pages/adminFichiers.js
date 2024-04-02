@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useRouter } from "next/router";
+
+//style
+import styles from "../styles/AdminFichiers.module.css";
 
 // composants MUI
 import Table from '@mui/material/Table';
@@ -11,6 +15,9 @@ import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
+import IconButton from '@mui/material/IconButton';
+import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded';
+
 // Composants 
 import CustomSnackbar from '../components/CustomSnackBar';
 
@@ -21,6 +28,10 @@ export default function adminFichiers() {
     const [photoData, setPhotoData] = useState([]);
 
     const [open, setOpen] = useState(false)
+    const [navigation, setNavigation] = useState('Affiches')
+
+
+    const router = useRouter();
 
     // Récupération des data
     useEffect(() => {
@@ -89,36 +100,108 @@ export default function adminFichiers() {
     }
 
 
-
-
     return (
-        <div>
+        <div className={styles.page}>
 
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 300 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Miniature</TableCell>
-                            <TableCell align="left">Nom du film</TableCell>
-                            <TableCell align="left">Réalisateur</TableCell>
-                            <TableCell align="left">Supprimer</TableCell>
+            <div className={styles.navigation}>
+                <IconButton onClick={() => router.push('./upload')} aria-label="return">
+                    <KeyboardReturnRoundedIcon />
+                </IconButton>
+                <div className={styles.itemNav} onClick={() => setNavigation('Affiches')}>
+                    {'Affiches'}
+                </div>
+                <div className={styles.itemNav} onClick={() => setNavigation('Photos')}>
+                    {'Photos'}
+                </div>
+                <div className={styles.itemNav} onClick={() => setNavigation('Tableaux')}>
+                    {'Tableaux'}
+                </div>
+            </div>
 
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {affichesData.map((row) => (
-                            <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
-                                <TableCell align="left" component="th" scope="row"> <img style={{ height: '50px' }} src={row.imageName} />  </TableCell>
-                                <TableCell align="left" component="th" scope="row"> {row.filmName} </TableCell>
-                                <TableCell align="left">{row.realName}</TableCell>
-                                <TableCell align="center">
-                                    <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteAffiche(row._id)} />
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <div className={styles.table}>
+
+                {navigation === 'Affiches' &&
+                    <TableContainer component={Paper} style={{ maxHeight: '80vh' }}>
+                        <Table stickyHeader aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Miniature</TableCell>
+                                    <TableCell align="left">Nom du film</TableCell>
+                                    <TableCell align="left">Réalisateur</TableCell>
+                                    <TableCell align="left">Supprimer</TableCell>
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody style={{ maxHeight: '100px', overflowY: 'auto' }}>
+                                {affichesData.map((row) => (
+                                    <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+                                        <TableCell align="left" component="th" scope="row"> <img style={{ height: '50px' }} src={row.imageName} />  </TableCell>
+                                        <TableCell align="left" component="th" scope="row"> {row.filmName} </TableCell>
+                                        <TableCell align="left">{row.realName}</TableCell>
+                                        <TableCell align="center">
+                                            <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteAffiche(row._id)} />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>}
+
+                {navigation === 'Photos' &&
+                    <TableContainer component={Paper} style={{ maxHeight: '80vh' }}>
+                        <Table stickyHeader aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Miniature</TableCell>
+                                    <TableCell align="left">Nom de la Photo</TableCell>
+                                    <TableCell align="left">Auteur</TableCell>
+                                    <TableCell align="left">Supprimer</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody style={{ maxHeight: '100px', overflowY: 'auto' }}>
+                                {photoData.map((row) => (
+                                    <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+                                        <TableCell align="left" component="th" scope="row"> <img style={{ height: '50px' }} src={row.imageName} />  </TableCell>
+                                        <TableCell align="left" component="th" scope="row"> {row.photoName} </TableCell>
+                                        <TableCell align="left">{row.auteur}</TableCell>
+                                        <TableCell align="center">
+                                            <DeleteIcon style={{ cursor: 'pointer' }} />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                }
+
+                {navigation === 'Tableaux' &&
+                    <TableContainer component={Paper} style={{ maxHeight: '80vh' }}>
+                        <Table stickyHeader aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Miniature</TableCell>
+                                    <TableCell align="left">Nom du Tableau</TableCell>
+                                    <TableCell align="left">Auteur</TableCell>
+                                    <TableCell align="left">Supprimer</TableCell>
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody style={{ overflowX: 'auto' }}>
+                                {tableauData.map((row) => (
+                                    <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+                                        <TableCell align="left" component="th" scope="row"> <img style={{ height: '50px' }} src={row.imageName} />  </TableCell>
+                                        <TableCell align="left" component="th" scope="row"> {row.tableauName} </TableCell>
+                                        <TableCell align="left">{row.auteur}</TableCell>
+                                        <TableCell align="center">
+                                            <DeleteIcon style={{ cursor: 'pointer' }} />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>}
+
+            </div>
 
             <CustomSnackbar
                 open={open}

@@ -74,7 +74,7 @@ export default function adminFichiers() {
                 }
             });
 
-    }, [open]);
+    }, []);
 
 
     const deleteAffiche = (afficheId) => {
@@ -108,7 +108,7 @@ export default function adminFichiers() {
                 if (data.result) {
 
                     console.log("Photo deleted successfully");
-                    const updatedPhotos = photosData.filter(photo => photo._id !== photoId);
+                    const updatedPhotos = photoData.filter(photo => photo._id !== photoId);
                     setPhotoData(updatedPhotos);
                     setOpen(true);
 

@@ -74,7 +74,7 @@ export default function adminFichiers() {
                 }
             });
 
-    }, []);
+    }, [open]);
 
 
     const deleteAffiche = (afficheId) => {

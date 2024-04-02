@@ -99,6 +99,49 @@ export default function adminFichiers() {
             });
     }
 
+    const deletePhoto = (photoId) => {
+        fetch(`https://art-papa-backend.vercel.app/photos/${photoId}`, {
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result) {
+
+                    console.log("Photo deleted successfully");
+                    const updatedPhotos = photosData.filter(photo => photo._id !== photoId);
+                    setPhotoData(updatedPhotos);
+                    setOpen(true);
+
+                } else {
+                    console.error("Error deleting photo:", data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Network or request error when deleting photo:", error);
+            });
+    }
+
+    const deleteTableau = (tableauId) => {
+        fetch(`https://art-papa-backend.vercel.app/tableaux/${tableauId}`, {
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result) {
+
+                    console.log("Tableau deleted successfully");
+                    const updatedTableaux = tableauData.filter(tableau => tableau._id !== tableauId);
+                    setTableauData(updatedTableaux);
+                    setOpen(true);
+
+                } else {
+                    console.error("Error deleting tableau:", data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Network or request error when deleting tableau:", error);
+            });
+    }
 
     return (
         <div className={styles.page}>
@@ -121,14 +164,14 @@ export default function adminFichiers() {
             <div className={styles.table}>
 
                 {navigation === 'Affiches' &&
-                    <TableContainer component={Paper} style={{ maxHeight: '80vh' }}>
+                    <TableContainer component={Paper} style={{ maxHeight: '80vh', borderRadius:'16px' }}>
                         <Table stickyHeader aria-label="customized table">
                             <TableHead>
-                                <TableRow>
-                                    <TableCell>Miniature</TableCell>
-                                    <TableCell align="left">Nom du film</TableCell>
-                                    <TableCell align="left">Réalisateur</TableCell>
-                                    <TableCell align="left">Supprimer</TableCell>
+                                <TableRow >
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }}>Miniature</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Nom du film</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Réalisateur</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Supprimer</TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -152,10 +195,10 @@ export default function adminFichiers() {
                         <Table stickyHeader aria-label="customized table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Miniature</TableCell>
-                                    <TableCell align="left">Nom de la Photo</TableCell>
-                                    <TableCell align="left">Auteur</TableCell>
-                                    <TableCell align="left">Supprimer</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }}>Miniature</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Nom de la Photo</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Auteur</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Supprimer</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody style={{ maxHeight: '100px', overflowY: 'auto' }}>
@@ -165,7 +208,7 @@ export default function adminFichiers() {
                                         <TableCell align="left" component="th" scope="row"> {row.photoName} </TableCell>
                                         <TableCell align="left">{row.auteur}</TableCell>
                                         <TableCell align="center">
-                                            <DeleteIcon style={{ cursor: 'pointer' }} />
+                                            <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deletePhoto(row._id)} />
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -179,10 +222,10 @@ export default function adminFichiers() {
                         <Table stickyHeader aria-label="customized table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Miniature</TableCell>
-                                    <TableCell align="left">Nom du Tableau</TableCell>
-                                    <TableCell align="left">Auteur</TableCell>
-                                    <TableCell align="left">Supprimer</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }}>Miniature</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Nom du Tableau</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Auteur</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Supprimer</TableCell>
 
                                 </TableRow>
                             </TableHead>
@@ -193,7 +236,7 @@ export default function adminFichiers() {
                                         <TableCell align="left" component="th" scope="row"> {row.tableauName} </TableCell>
                                         <TableCell align="left">{row.auteur}</TableCell>
                                         <TableCell align="center">
-                                            <DeleteIcon style={{ cursor: 'pointer' }} />
+                                            <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteTableau(row._id)} />
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -206,7 +249,7 @@ export default function adminFichiers() {
             <CustomSnackbar
                 open={open}
                 handleClose={() => setOpen(false)}
-                message="Affiche supprimée"
+                message="Fichier supprimé"
                 duration={3000}
             />
 

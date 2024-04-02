@@ -26,10 +26,10 @@ export default function adminFichiers() {
     const [affichesData, setAffichesData] = useState([]);
     const [tableauData, setTableauData] = useState([]);
     const [photoData, setPhotoData] = useState([]);
+    const [expoData, setExpoData] = useState([]);
 
     const [open, setOpen] = useState(false)
     const [navigation, setNavigation] = useState('Affiches')
-
 
     const router = useRouter();
 
@@ -69,8 +69,21 @@ export default function adminFichiers() {
                     const sortedPhoto = data.photos.sort((a, b) => {
                         return new Date(b.creationDate) - new Date(a.creationDate);
                     });
-                    // Récupéreration des affiches
+                    // Récupéreration des photos
                     setPhotoData(sortedPhoto);
+                }
+            });
+
+        fetch(`https://art-papa-backend.vercel.app/expositions/`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.result) {
+                    // Tri des affiches par date de création
+                    const sortedExpo = data.expos.sort((a, b) => {
+                        return new Date(b.creationDate) - new Date(a.creationDate);
+                    });
+                    // Récupéreration des expos
+                    setExpoData(sortedExpo);
                 }
             });
 
@@ -143,6 +156,28 @@ export default function adminFichiers() {
             });
     }
 
+    const deleteExpo = (expoId) => {
+        fetch(`https://art-papa-backend.vercel.app/expositions/${expoId}`, {
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result) {
+
+                    console.log("Expo deleted successfully");
+                    const updatedExpo = expoData.filter(expo => expo._id !== expoId);
+                    setExpoData(updatedExpo);
+                    setOpen(true);
+
+                } else {
+                    console.error("Error deleting expo:", data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Network or request error when deleting expo:", error);
+            });
+    }
+
     return (
         <div className={styles.page}>
 
@@ -158,6 +193,9 @@ export default function adminFichiers() {
                 </div>
                 <div className={styles.itemNav} onClick={() => setNavigation('Tableaux')}>
                     {'Tableaux'}
+                </div>
+                <div className={styles.itemNav} onClick={() => setNavigation('Expos')}>
+                    {'Expos'}
                 </div>
             </div>
 
@@ -237,6 +275,33 @@ export default function adminFichiers() {
                                         <TableCell align="left">{row.auteur}</TableCell>
                                         <TableCell align="center">
                                             <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteTableau(row._id)} />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>}
+
+                {navigation === 'Expos' &&
+                    <TableContainer component={Paper} style={{ maxHeight: '80vh' }}>
+                        <Table stickyHeader aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }}>Miniature</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Nom de l'expo</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Auteur</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Supprimer</TableCell>
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody style={{ overflowX: 'auto' }}>
+                                {expoData.map((row) => (
+                                    <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+                                        <TableCell align="left" component="th" scope="row"> <img style={{ height: '50px' }} src={row.imageCouv} />  </TableCell>
+                                        <TableCell align="left" component="th" scope="row"> {row.expoName} </TableCell>
+                                        <TableCell align="left">{row.auteur}</TableCell>
+                                        <TableCell align="center">
+                                            <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteExpo(row._id)} />
                                         </TableCell>
                                     </TableRow>
                                 ))}

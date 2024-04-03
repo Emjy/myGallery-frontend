@@ -45,8 +45,15 @@ export default function Affiches() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortMethod, setSortMethod] = useState('date'); // Nouvel état pour la méthode de tri
 
+  const [fullPage, setFullPage] = useState('');
+
+
   const handleSearchChange = (query) => {
     setSearchQuery(query);
+  };
+
+  const handleCloseFullPage = () => {
+    setFullPage('');  
   };
 
   useEffect(() => {
@@ -100,7 +107,10 @@ export default function Affiches() {
 
       <div className={styles.affiches}>
         {filteredAffiches.map((item, index) => (
-          <div className={styles.afficheItem} key={index}>
+          <div className={styles.afficheItem} key={index} onClick={(e) => {
+            e.stopPropagation();  
+            setFullPage(item.imageName);
+          }} >
             <AfficheCard
               affiche={item.imageName}
               name={item.filmName}
@@ -109,6 +119,11 @@ export default function Affiches() {
           </div>
         ))}
       </div>
+
+      {fullPage && <div className={styles.photoFullPage} onClick={() => handleCloseFullPage()}>
+        <img src={fullPage} />
+      </div>}
+      
     </div>
   );
 }

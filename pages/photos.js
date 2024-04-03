@@ -68,8 +68,8 @@ export default function Photos() {
           </ResponsiveMasonry>
         </div>
 
-
       </div>
+
       {fullPage && <div className={styles.photoFullPage} onClick={() => handleCloseFullPage()}>
         <img src={fullPage} />
       </div>}

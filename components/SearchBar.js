@@ -14,6 +14,11 @@ export default function SearchBar(props) {
                 borderColor: 'white', // Couleur de la bordure
                 borderRadius: '16px',
             },
+            padding: '0px 0px', // Réduit le padding pour diminuer la hauteur
+            '& input': {
+                padding: '0px', // Vous pouvez ajuster ce padding pour réduire encore plus la hauteur
+                color: 'rgba(255, 255, 255, 0.5)', // Couleur du texte que l'utilisateur tape
+            },
             '&:hover fieldset': {
                 borderColor: 'rgba(255, 255, 255, 1)', // Couleur de la bordure au survol
             },
@@ -62,7 +67,7 @@ export default function SearchBar(props) {
                             width: {
                                 xs: '60vw', // sur petits écrans
                                 md: '33vw'  // sur écrans moyens et grands
-                            },
+                            }, 
                             ...customMuiStyles // Assurez-vous d'appliquer également vos styles personnalisés ici si nécessaire
                         }}
                     />

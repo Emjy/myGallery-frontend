@@ -22,10 +22,10 @@ export default function contact() {
         </div>
         
         <div className={styles.contacts}>
-          <div className={styles.contactItem}>
+          {/* <div className={styles.contactItem}>
             <PhoneIphoneRoundedIcon className={styles.icon} />
-            {"06 20 21 69 35"}
-          </div>
+            {"00"}
+          </div> */}
           <div className={styles.contactItem}>
             <AlternateEmailRoundedIcon className={styles.icon} />
             {"giraudliard@gmail.com"}

@@ -61,13 +61,17 @@ export default function Photos() {
       <div className={styles.page} style={{ filter: fullPage ? 'blur(8px)' : '' }}>
         <Header />
 
-        <div className={styles.photoContainer} >
-          <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 700: 2, 1050: 3, 1400: 4, 1750: 5 }}
-            className={styles.photos}>
-            <Masonry gutter="16px">{photos}</Masonry>
-          </ResponsiveMasonry>
-        </div>
-
+        {photos.length > 0 &&
+          <div className={styles.photoContainer} >
+            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 700: 2, 1050: 3, 1400: 4, 1750: 5 }}
+              className={styles.photos}>
+              <Masonry gutter="16px">{photos}</Masonry>
+            </ResponsiveMasonry>
+          </div>}
+        {photos.length === 0 &&
+          <div style={{ height: '50%', color: 'white', opacity: '0.5', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {'No photos'}
+          </div>}
       </div>
 
       {fullPage && <div className={styles.photoFullPage} onClick={() => handleCloseFullPage()}>

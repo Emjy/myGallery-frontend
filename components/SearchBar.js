@@ -67,7 +67,7 @@ export default function SearchBar(props) {
                             width: {
                                 xs: '60vw', // sur petits écrans
                                 md: '33vw'  // sur écrans moyens et grands
-                            }, 
+                            },  
                             ...customMuiStyles // Assurez-vous d'appliquer également vos styles personnalisés ici si nécessaire
                         }}
                     />

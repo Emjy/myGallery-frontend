@@ -29,12 +29,20 @@ export default function expositions() {
   return (
     <div>
       <Header />
-      {exposData.map((item, index) => (
-        <div className={styles.expos} >
-          <ExpoCard expoImg={item.imageCouv} expoName={item.expoName} auteur={item.auteur} adresse={item.adresse} startDate={item.startDate} endDate={item.endDate} /> 
-        </div>
 
-      ))}
+      {exposData.length > 0 &&
+        exposData.map((item, index) => (
+          <div className={styles.expos} >
+            <ExpoCard expoImg={item.imageCouv} expoName={item.expoName} auteur={item.auteur} adresse={item.adresse} startDate={item.startDate} endDate={item.endDate} />
+          </div>
+
+        ))
+      }
+
+      {exposData.length === 0 &&
+        <div style={{ padding: '4rem', color: 'white', opacity: '0.2', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {'Pas d\'expositions pour le moment'}
+        </div>}
 
     </div>
   )

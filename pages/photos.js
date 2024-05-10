@@ -69,8 +69,8 @@ export default function Photos() {
             </ResponsiveMasonry>
           </div>}
         {photos.length === 0 &&
-          <div style={{ height: '50%', color: 'white', opacity: '0.5', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            {'No photos'}
+          <div style={{ padding: '4rem', color: 'white', opacity: '0.2', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {'Pas de photos pour le moment'}
           </div>}
       </div>
 

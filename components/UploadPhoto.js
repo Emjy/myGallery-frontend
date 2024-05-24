@@ -5,7 +5,7 @@ import imageCompression from 'browser-image-compression';
 import CustomSnackbar from "./CustomSnackBar";
 
 // Style
-import styles from "../styles/UploadPhoto.module.css";
+import styles from "../styles/UploadStyle.module.css";
 
 // Composants MUI
 import Button from "@mui/material/Button";

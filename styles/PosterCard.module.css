@@ -1,0 +1,47 @@
+.posterCard {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.posterName  {
+  font-weight: bold; 
+}
+
+.textOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  opacity: 0; /* Masque le texte initialement */
+  transition: opacity 0.5s ease;
+  pointer-events: none; /* Permet les interactions de survol avec l'image en dessous */
+  text-align: center;
+  padding: 8px;
+  color: white;
+}
+
+.posterCard:hover .textOverlay {
+  opacity: 1; /* Affiche le texte lors du survol */
+}
+
+.posterCard:hover .posterImage {
+  -webkit-filter: grayscale(100%); /* Pour Chrome, Safari, Opera */
+  filter: grayscale(100%); /* Pour Firefox */
+  opacity: 0.1;
+  transform: scale(1.3); /* Zoom l'image */
+  cursor: pointer;
+}
+
+.posterImage {
+  transition: transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
+  display: block;
+  width: auto; /* Assurez-vous que l'image s'étend à la taille de son conteneur */
+  max-height : 30vh ;  
+}

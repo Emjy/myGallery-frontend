@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import CustomSnackbar from "./CustomSnackBar";
 
 // Style
-import styles from "../styles/UploadExpo.module.css";
+import styles from "../styles/UploadStyle.module.css";
 
 // Composants MUI
 import Button from "@mui/material/Button";

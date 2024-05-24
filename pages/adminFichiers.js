@@ -24,6 +24,7 @@ import CustomSnackbar from '../components/CustomSnackBar';
 export default function adminFichiers() {
 
     const [affichesData, setAffichesData] = useState([]);
+    const [postersData, setPostersData] = useState([]);
     const [tableauData, setTableauData] = useState([]);
     const [photoData, setPhotoData] = useState([]);
     const [expoData, setExpoData] = useState([]);
@@ -45,6 +46,18 @@ export default function adminFichiers() {
                         return new Date(b.creationDate) - new Date(a.creationDate);
                     });
                     setAffichesData(sortedAffiches);
+                }
+            });
+        
+        fetch(`https://art-papa-backend.vercel.app/posters/`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.result) {
+                    // Tri des affiches par date de création
+                    const sortedPosters = data.posters.sort((a, b) => {
+                        return new Date(b.creationDate) - new Date(a.creationDate);
+                    });
+                    setPostersData(sortedPosters);
                 }
             });
 
@@ -105,6 +118,28 @@ export default function adminFichiers() {
 
                 } else {
                     console.error("Error deleting affiche:", data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Network or request error when deleting affiche:", error);
+            });
+    }
+
+    const deletePoster = (afficheId) => {
+        fetch(`https://art-papa-backend.vercel.app/affiches/${posterId}`, {
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result) {
+
+                    console.log("Poster deleted successfully");
+                    const updatedPosters = postersData.filter(poster => poster._id !== posterId);
+                    setPostersData(updatedPosters);
+                    setOpen(true);
+
+                } else {
+                    console.error("Error deleting poster:", data.message);
                 }
             })
             .catch(error => {
@@ -188,6 +223,9 @@ export default function adminFichiers() {
                 <div className={styles.itemNav} onClick={() => setNavigation('Affiches')}>
                     {'Affiches'}
                 </div>
+                <div className={styles.itemNav} onClick={() => setNavigation('Posters')}>
+                    {'Posters'}
+                </div>
                 <div className={styles.itemNav} onClick={() => setNavigation('Photos')}>
                     {'Photos'}
                 </div>
@@ -202,7 +240,7 @@ export default function adminFichiers() {
             <div className={styles.table}>
 
                 {navigation === 'Affiches' &&
-                    <TableContainer component={Paper} style={{ maxHeight: '80vh', borderRadius:'16px' }}>
+                    <TableContainer component={Paper} style={{ maxHeight: '80vh', borderRadius: '16px' }}>
                         <Table stickyHeader aria-label="customized table">
                             <TableHead>
                                 <TableRow >
@@ -221,6 +259,31 @@ export default function adminFichiers() {
                                         <TableCell align="left">{row.realName}</TableCell>
                                         <TableCell align="center">
                                             <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteAffiche(row._id)} />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>}
+
+                {navigation === 'Posters' &&
+                    <TableContainer component={Paper} style={{ maxHeight: '80vh', borderRadius: '16px' }}>
+                        <Table stickyHeader aria-label="customized table">
+                            <TableHead>
+                                <TableRow >
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }}>Miniature</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Nom du poster</TableCell>
+                                    <TableCell style={{ backgroundColor: '#8CDEDC', color: 'white' }} align="left">Supprimer</TableCell>
+
+                                </TableRow>
+                            </TableHead>
+                            <TableBody style={{ maxHeight: '100px', overflowY: 'auto' }}>
+                                {postersData.map((row) => (
+                                    <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+                                        <TableCell align="left" component="th" scope="row"> <img style={{ height: '50px' }} src={row.imageName} />  </TableCell>
+                                        <TableCell align="left" component="th" scope="row"> {row.posterName} </TableCell>
+                                        <TableCell align="center">
+                                            <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deletePoster(row._id)} />
                                         </TableCell>
                                     </TableRow>
                                 ))}

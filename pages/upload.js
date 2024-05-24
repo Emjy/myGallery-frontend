@@ -9,6 +9,7 @@ import styles from "../styles/Upload.module.css";
 
 //components
 import UploadAffiche from "../components/UploadAffiche";
+import UploadPoster from "../components/UploadPoster";
 import UploadTableau from "../components/UploadTableau";
 import UploadPhoto from "../components/UploadPhoto";
 import UploadExpo from "../components/UploadExpo";
@@ -84,6 +85,7 @@ export default function upload() {
               onChange={handleChange}
             >
               <MenuItem value={10}>Affiche</MenuItem>
+              <MenuItem value={15}>Poster</MenuItem>
               <MenuItem value={20}>Tableau</MenuItem>
               <MenuItem value={30}>Photo</MenuItem>
               <MenuItem value={40}>Expo</MenuItem>
@@ -94,6 +96,7 @@ export default function upload() {
 
         <div className={styles.formContainer}>
           {file == 10 && <UploadAffiche />}
+          {file == 15 && <UploadPoster />}
           {file == 20 && <UploadTableau />}
           {file == 30 && <UploadPhoto />}
           {file == 40 && <UploadExpo />}

@@ -125,7 +125,7 @@ export default function adminFichiers() {
             });
     }
 
-    const deletePoster = (afficheId) => {
+    const deletePoster = (posterId) => {
         fetch(`https://art-papa-backend.vercel.app/affiches/${posterId}`, {
             method: 'POST',
         })

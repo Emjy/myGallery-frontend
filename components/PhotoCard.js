@@ -10,7 +10,7 @@ export default function PhotoCard(props) {
       <div className={styles.textOverlay}>
         <div className={styles.photoName}>{props.name}</div>
         <div className={styles.auteurName}>{props.auteur}</div>
-        {/* <div className={styles.price}>{props.prix} €</div> */}
+        <div className={styles.price}>{props.prix} €</div>
       </div>
     </div>
   );

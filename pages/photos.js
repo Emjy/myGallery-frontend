@@ -19,7 +19,7 @@ export default function Photos() {
 
   // Récupération des photos
   useEffect(() => {
-    fetch(`https://françoisgiraud.fr/photos/`)
+    fetch(`https://art-papa-backend.vercel.app/photos/`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {

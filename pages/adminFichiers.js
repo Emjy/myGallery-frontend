@@ -37,7 +37,7 @@ export default function adminFichiers() {
     // Récupération des data
     useEffect(() => {
 
-        fetch(`https://art-papa-backend.vercel.app/affiches/`)
+        fetch(`https://françoisgiraud.fr/affiches/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -49,7 +49,7 @@ export default function adminFichiers() {
                 }
             });
         
-        fetch(`https://art-papa-backend.vercel.app/posters/`)
+        fetch(`https://françoisgiraud.fr/posters/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -61,7 +61,7 @@ export default function adminFichiers() {
                 }
             });
 
-        fetch(`https://art-papa-backend.vercel.app/tableaux/`)
+        fetch(`https://françoisgiraud.fr/tableaux/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -74,7 +74,7 @@ export default function adminFichiers() {
                 }
             });
 
-        fetch(`https://art-papa-backend.vercel.app/photos/`)
+        fetch(`https://françoisgiraud.fr/photos/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -87,7 +87,7 @@ export default function adminFichiers() {
                 }
             });
 
-        fetch(`https://art-papa-backend.vercel.app/expositions/`)
+        fetch(`https://françoisgiraud.fr/expositions/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -104,7 +104,7 @@ export default function adminFichiers() {
 
 
     const deleteAffiche = (afficheId) => {
-        fetch(`https://art-papa-backend.vercel.app/affiches/${afficheId}`, {
+        fetch(`https://françoisgiraud.fr/affiches/${afficheId}`, {
             method: 'POST',
         })
             .then(response => response.json())
@@ -126,7 +126,7 @@ export default function adminFichiers() {
     }
 
     const deletePoster = (posterId) => {
-        fetch(`https://art-papa-backend.vercel.app/posters/${posterId}`, {
+        fetch(`https://françoisgiraud.fr/posters/${posterId}`, {
             method: 'POST',
         })
             .then(response => response.json())
@@ -148,7 +148,7 @@ export default function adminFichiers() {
     }
 
     const deletePhoto = (photoId) => {
-        fetch(`https://art-papa-backend.vercel.app/photos/${photoId}`, {
+        fetch(`https://françoisgiraud.fr/photos/${photoId}`, {
             method: 'POST',
         })
             .then(response => response.json())
@@ -170,7 +170,7 @@ export default function adminFichiers() {
     }
 
     const deleteTableau = (tableauId) => {
-        fetch(`https://art-papa-backend.vercel.app/tableaux/${tableauId}`, {
+        fetch(`https://françoisgiraud.fr/tableaux/${tableauId}`, {
             method: 'POST',
         })
             .then(response => response.json())
@@ -192,7 +192,7 @@ export default function adminFichiers() {
     }
 
     const deleteExpo = (expoId) => {
-        fetch(`https://art-papa-backend.vercel.app/expositions/${expoId}`, {
+        fetch(`https://françoisgiraud.fr/expositions/${expoId}`, {
             method: 'POST',
         })
             .then(response => response.json())

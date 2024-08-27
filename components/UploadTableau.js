@@ -55,7 +55,7 @@ export default function UploadFile() {
 
 
     axios
-      .post("https://art-papa-backend.vercel.app/tableaux/", formData, {
+      .post("https://françoisgiraud.fr/tableaux/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

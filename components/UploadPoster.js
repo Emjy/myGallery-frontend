@@ -43,7 +43,7 @@ export default function UploadFile() {
     }
     formData.append("posterName", posterName);
 
-    axios.post("https://art-papa-backend.vercel.app/posters/", formData, {
+    axios.post("https://françoisgiraud.fr/posters/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

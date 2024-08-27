@@ -12,7 +12,7 @@ export default function expositions() {
   const [exposData, setExposData] = useState([]);
 
   useEffect(() => {
-    fetch(`https://art-papa-backend.vercel.app/expositions/`)
+    fetch(`https://françoisgiraud.fr/expositions/`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {

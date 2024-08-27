@@ -17,7 +17,7 @@ export default function tableauDetail() {
 
   // Récupération des tableaux
   useEffect(() => {
-    fetch(`https://art-papa-backend.vercel.app/tableaux/${id}`)
+    fetch(`https://françoisgiraud.fr/tableaux/${id}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {

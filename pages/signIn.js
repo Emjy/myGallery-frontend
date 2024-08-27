@@ -22,7 +22,7 @@ export default function signIn() {
 
     // Connection 
     const handleConnection = () => {
-        fetch('https://art-papa-backend.vercel.app/users/signIn', {
+        fetch('https://françoisgiraud.fr/users/signIn', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user, password }),

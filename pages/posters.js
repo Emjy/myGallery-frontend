@@ -19,7 +19,7 @@ export default function posters() {
     };
 
     useEffect(() => {
-        fetch(`https://art-papa-backend.vercel.app/posters/`)
+        fetch(`https://françoisgiraud.fr/posters/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {

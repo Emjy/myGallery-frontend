@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+
 
 // Composants
 import Header from "../components/Header";
@@ -8,9 +10,12 @@ import TableauCard from "../components/TableauCard";
 import styles from "../styles/Tableaux.module.css";
 
 export default function Tableaux() {
+
+  const router = useRouter();
+
   const [tableauData, setTableauData] = useState([]);
 
-  // Récupération des affiches
+  // Récupération des tableaux
   useEffect(() => {
     fetch(`https://françoisgiraud.fr/tableaux/`)
       .then((response) => response.json())
@@ -28,9 +33,8 @@ export default function Tableaux() {
 
   const tableaux = tableauData.map((item, index) => {
 
-    console.log(item.imageName)
     return (
-      <div className={styles.tableauItem} key={index}>
+      <div className={styles.tableauItem} key={index} onClick={() => router.push(`/tableauDetail?id=${item._id}`)}>
         <TableauCard
           tableau={item.imageName}
           name={item.tableauName}

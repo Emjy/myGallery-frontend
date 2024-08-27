@@ -12,17 +12,17 @@ import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles"; 
+import { styled } from "@mui/material/styles";
+
 // Transfert des data vers cloudinary
 import axios from "axios";
 
 export default function UploadFile() {
   const fileInputRef = useRef(); // Créez une référence pour le champ de fichier
-  const [affiche, setAffiche] = useState(null);
+  const [poster, setPoster] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  const [filmName, setFilmName] = useState("");
-  const [realName, setRealName] = useState("");
+  const [posterName, setPosterName] = useState("");
 
   const [open, setOpen] = useState(false)
 
@@ -36,15 +36,14 @@ export default function UploadFile() {
     width: 1,
   });
 
-  const uploadAffiche = () => {
+  const uploadPoster = () => {
     const formData = new FormData();
-    if (affiche) {
-      formData.append("file", affiche);
+    if (poster) {
+      formData.append("file", poster);
     }
-    formData.append("filmName", filmName);
-    formData.append("realName", realName);
+    formData.append("posterName", posterName);
 
-    axios.post("https://art-papa-backend.vercel.app/affiches/", formData, {
+    axios.post("https://art-papa-backend.vercel.app/posters/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -52,9 +51,8 @@ export default function UploadFile() {
       .then(() => {
         console.log("image uploaded");
         // Réinitialisez vos états ici
-        setFilmName("");
-        setRealName("");
-        setAffiche(null);
+        setPosterName("");
+        setPoster(null);
         setPreviewUrl(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
@@ -77,14 +75,14 @@ export default function UploadFile() {
 
       try {
         const compressedFile = await imageCompression(file, options);
-        setAffiche(compressedFile);
+        setPoster(compressedFile);
         setPreviewUrl(URL.createObjectURL(compressedFile));
       } catch (error) {
         console.error(error);
       }
     }
   };
- 
+
   return (
     <div className={styles.page}>
       <div className={styles.uploadForm}>
@@ -107,34 +105,26 @@ export default function UploadFile() {
         )}
 
         <TextField
-          label="Nom du film"
+          label="Nom du poster"
           variant="outlined"
-          value={filmName}
-          onChange={(event) => setFilmName(event.target.value)}
-          className={styles.formItem}
-        />
-
-        <TextField
-          label="Nom du réalisateur"
-          variant="outlined"
-          value={realName}
-          onChange={(event) => setRealName(event.target.value)}
+          value={posterName}
+          onChange={(event) => setPosterName(event.target.value)}
           className={styles.formItem}
         />
 
         <Button
           variant="contained"
           startIcon={<CloudUploadIcon />}
-          onClick={uploadAffiche}
+          onClick={uploadPoster}
           className={styles.formItem}
         >
-          Envoi Affiche
+          Envoi Poster
         </Button>
 
         <CustomSnackbar
           open={open}
           handleClose={() => setOpen(false)}
-          message="Affiche envoyée"
+          message="Poster envoyée"
           duration={3000}
         />
 

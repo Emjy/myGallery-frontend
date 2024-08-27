@@ -19,16 +19,15 @@ import axios from "axios";
 
 export default function UploadFile() {
   const fileInputRef = useRef(); // Créez une référence pour le champ de fichier
-  const [tableau, setTableau] = useState(null);
+  const [photo, setPhoto] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  const [tableauName, setTableauName] = useState("");
+  const [photoName, setPhotoName] = useState("");
   const [auteur, setAuteur] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
 
   const [open, setOpen] = useState(false)
-
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -42,12 +41,13 @@ export default function UploadFile() {
     width: 1,
   });
 
-  const uploadTableau = () => {
+  const uploadPhoto = () => {
     const formData = new FormData();
-    if (tableau) {
-      formData.append("file", tableau);
+    if (photo) {
+      formData.append("file", photo);
     }
-    formData.append("tableauName", tableauName);
+
+    formData.append("photoName", photoName);
     formData.append("auteur", auteur);
     formData.append("prix", price);
     formData.append("description", description);
@@ -55,7 +55,7 @@ export default function UploadFile() {
 
 
     axios
-      .post("https://art-papa-backend.vercel.app/tableaux/", formData, {
+      .post("https://art-papa-backend.vercel.app/photos/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -63,16 +63,18 @@ export default function UploadFile() {
       .then(() => {
         console.log("image uploaded");
         // Réinitialiser vos états ici
-        setTableauName("");
+        setPhotoName("");
         setAuteur("");
         setDescription("");
         setPrice(0); // Réinitialiser le prix
-        setTableau(null);
+        setPhoto(null);
         setPreviewUrl(null); // Supprimer l'URL de l'aperçu
         // Réinitialisez le champ de fichier
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
+        setOpen(true)
+        
       })
       .catch((error) => console.log(error));
   };
@@ -90,7 +92,7 @@ export default function UploadFile() {
 
       try {
         const compressedFile = await imageCompression(file, options);
-        setTableau(compressedFile);
+        setPhoto(compressedFile);
         setPreviewUrl(URL.createObjectURL(compressedFile));
       } catch (error) {
         console.error(error);
@@ -126,11 +128,12 @@ export default function UploadFile() {
 
         <TextField
           id="outlined-basic"
-          label="Nom du Tableau"
+          label="Nom de la photo"
           variant="outlined"
-          value={tableauName}
-          onChange={(event) => setTableauName(event.target.value)}
+          value={photoName}
+          onChange={(event) => setPhotoName(event.target.value)}
           className={styles.formItem}
+
         />
 
         <TextField
@@ -155,14 +158,14 @@ export default function UploadFile() {
           className={styles.formItem}
 
         />
-         
+
         <TextField
           id="outlined-multiline-static"
           label="Description"
           multiline
           maxRows={30}
           rows={5} 
-          value={description} 
+          value={description}
           onChange={(event) => setDescription(event.target.value)}
           className={styles.formItem}
 
@@ -174,11 +177,11 @@ export default function UploadFile() {
           variant="contained"
           tabIndex={-1}
           startIcon={<CloudUploadIcon />}
-          onClick={() => uploadTableau()}
+          onClick={() => uploadPhoto()}
           className={styles.formItem}
 
         >
-          Envoi Tableau
+          Envoi photo
         </Button>
 
         <CustomSnackbar

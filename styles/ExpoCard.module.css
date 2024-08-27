@@ -1,0 +1,66 @@
+.expoCard {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 400px;
+}
+
+.bottomCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 400px;
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 0px 0px 16px 16px;
+    padding: 16px;
+}
+
+.nom {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 50px;
+    z-index: 2;
+    align-self: center;
+    border-radius: 16px;
+    margin: 8px;
+}
+
+.auteur {
+    align-self: center;
+    text-align: center;
+    font-size: 12px;
+}
+
+.infos {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.statut {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-weight: 600;
+}
+
+.expoImage {
+    width: 400px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 16px 16px 0px 0px;
+}
+
+.dates {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.adresse {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}

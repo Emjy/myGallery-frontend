@@ -1,35 +1,25 @@
 .page {
   width: 100vw;
-    height: 100vh;
+  height: 100vh;
 }
 
-.affiches {
+.photoContainer {
   display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start;
-  padding: 8px;
-  height: 75vh;
   overflow: auto;
+  height: 80vh;
+}
 
+.photos {
+  width: 95vw;
 }
 
 .title {
   font-size: 48px;
 }
 
-.afficheItem {
+.photoItem {
   display: flex;
-}
-
-
-.searchContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 16px 0px;
 }
 
 .photoFullPage {
@@ -42,7 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .photoFullPage img {

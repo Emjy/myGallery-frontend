@@ -33,9 +33,11 @@ export default function Header() {
       {path !== "about"  && path !== "contact" && <div className={styles.menu}>
         <MenuItem nom={"affiches"} />
         |
+        <MenuItem nom={"posters"} />
+        |
         <MenuItem nom={"tableaux"} />
         |
-        <MenuItem nom={"photographies"} />
+        <MenuItem nom={"photos"} />
         |
         <MenuItem nom={"expositions"} />
       </div>}

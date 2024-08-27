@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import imageCompression from 'browser-image-compression';
+import dayjs from 'dayjs';
+
 
 // Composants 
 import CustomSnackbar from "./CustomSnackBar";
@@ -13,18 +15,25 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 // Transfert des data vers cloudinary
 import axios from "axios";
 
 export default function UploadFile() {
+
   const fileInputRef = useRef(); // Créez une référence pour le champ de fichier
-  const [tableau, setTableau] = useState(null);
+  const [expo, setExpo] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  const [tableauName, setTableauName] = useState("");
+  const [expoName, setExpoName] = useState("");
   const [auteur, setAuteur] = useState("");
-  const [price, setPrice] = useState(0);
+  const [adresse, setAdresse] = useState("");
+  const [startDate, setStartDate] = useState(dayjs())
+  const [endDate, setEndDate] = useState(dayjs())
   const [description, setDescription] = useState("");
 
   const [open, setOpen] = useState(false)
@@ -42,32 +51,32 @@ export default function UploadFile() {
     width: 1,
   });
 
-  const uploadTableau = () => {
+  const uploadExpo = () => {
     const formData = new FormData();
-    if (tableau) {
-      formData.append("file", tableau);
+    if (expo) {
+      formData.append("file", expo);
     }
-    formData.append("tableauName", tableauName);
+    formData.append("expoName", expoName);
+    formData.append("adresse", adresse);
     formData.append("auteur", auteur);
-    formData.append("prix", price);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
     formData.append("description", description);
 
 
-
-    axios
-      .post("https://art-papa-backend.vercel.app/tableaux/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+    axios.post("https://art-papa-backend.vercel.app/expositions/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
       .then(() => {
         console.log("image uploaded");
         // Réinitialiser vos états ici
-        setTableauName("");
+        setExpoName("");
         setAuteur("");
         setDescription("");
-        setPrice(0); // Réinitialiser le prix
-        setTableau(null);
+        setAdresse('');
+        setExpo(null);
         setPreviewUrl(null); // Supprimer l'URL de l'aperçu
         // Réinitialisez le champ de fichier
         if (fileInputRef.current) {
@@ -90,7 +99,7 @@ export default function UploadFile() {
 
       try {
         const compressedFile = await imageCompression(file, options);
-        setTableau(compressedFile);
+        setExpo(compressedFile);
         setPreviewUrl(URL.createObjectURL(compressedFile));
       } catch (error) {
         console.error(error);
@@ -112,7 +121,7 @@ export default function UploadFile() {
           className={styles.formItem}
 
         >
-          Image
+          Image de couverture
           <VisuallyHiddenInput type="file" />
         </Button>
 
@@ -126,10 +135,10 @@ export default function UploadFile() {
 
         <TextField
           id="outlined-basic"
-          label="Nom du Tableau"
+          label="Nom de l'expo"
           variant="outlined"
-          value={tableauName}
-          onChange={(event) => setTableauName(event.target.value)}
+          value={expoName}
+          onChange={(event) => setExpoName(event.target.value)}
           className={styles.formItem}
         />
 
@@ -144,25 +153,44 @@ export default function UploadFile() {
         />
 
         <TextField
-          id="outlined-number"
-          label="Prix"
-          type="number"
-          value={price}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={(event) => setPrice(Number(event.target.value))}
+          id="outlined-basic"
+          label="Adresse"
+          variant="outlined"
+          value={adresse}
+          onChange={(event) => setAdresse(event.target.value)}
           className={styles.formItem}
 
         />
-         
+
+        <div className={styles.formItem} style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date de début"
+              value={startDate}
+              onChange={(newValue) => setStartDate(newValue)}
+
+            />
+          </LocalizationProvider>
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Date de fin"
+              value={endDate}
+              onChange={(newValue) => setEndDate(newValue)}
+            />
+          </LocalizationProvider>
+
+        </div>
+
+
         <TextField
           id="outlined-multiline-static"
           label="Description"
           multiline
           maxRows={30}
-          rows={5} 
-          value={description} 
+          rows={5}
+          value={description}
           onChange={(event) => setDescription(event.target.value)}
           className={styles.formItem}
 
@@ -174,11 +202,11 @@ export default function UploadFile() {
           variant="contained"
           tabIndex={-1}
           startIcon={<CloudUploadIcon />}
-          onClick={() => uploadTableau()}
+          onClick={() => uploadExpo()}
           className={styles.formItem}
 
         >
-          Envoi Tableau
+          Envoi Expo
         </Button>
 
         <CustomSnackbar

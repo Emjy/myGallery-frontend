@@ -14,8 +14,8 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 
-// Transfert des data vers cloudinary
 import axios from "axios";
+import { API_URL } from "../lib/api";
 
 export default function UploadFile() {
   const fileInputRef = useRef(); // Créez une référence pour le champ de fichier
@@ -55,7 +55,7 @@ export default function UploadFile() {
 
 
     axios
-      .post("https://art-papa-backend.vercel.app/tableaux/", formData, {
+      .post(`${API_URL}/tableaux/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

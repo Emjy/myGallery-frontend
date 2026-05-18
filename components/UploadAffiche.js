@@ -13,8 +13,8 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles"; 
-// Transfert des data vers cloudinary
 import axios from "axios";
+import { API_URL } from "../lib/api";
 
 export default function UploadFile() {
   const fileInputRef = useRef(); // Créez une référence pour le champ de fichier
@@ -44,7 +44,7 @@ export default function UploadFile() {
     formData.append("filmName", filmName);
     formData.append("realName", realName);
 
-    axios.post("https://art-papa-backend.vercel.app/affiches/", formData, {
+    axios.post(`${API_URL}/affiches/`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

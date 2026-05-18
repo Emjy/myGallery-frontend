@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/router";
+import { API_URL } from "../lib/api";
 
 //style
 import styles from "../styles/AdminFichiers.module.css";
@@ -37,7 +38,7 @@ export default function adminFichiers() {
     // Récupération des data
     useEffect(() => {
 
-        fetch(`https://art-papa-backend.vercel.app/affiches/`)
+        fetch(`${API_URL}/affiches/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -49,7 +50,7 @@ export default function adminFichiers() {
                 }
             });
         
-        fetch(`https://art-papa-backend.vercel.app/posters/`)
+        fetch(`${API_URL}/posters/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -61,7 +62,7 @@ export default function adminFichiers() {
                 }
             });
 
-        fetch(`https://art-papa-backend.vercel.app/tableaux/`)
+        fetch(`${API_URL}/tableaux/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -74,7 +75,7 @@ export default function adminFichiers() {
                 }
             });
 
-        fetch(`https://art-papa-backend.vercel.app/photos/`)
+        fetch(`${API_URL}/photos/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -87,7 +88,7 @@ export default function adminFichiers() {
                 }
             });
 
-        fetch(`https://art-papa-backend.vercel.app/expositions/`)
+        fetch(`${API_URL}/expositions/`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.result) {
@@ -104,7 +105,7 @@ export default function adminFichiers() {
 
 
     const deleteAffiche = (afficheId) => {
-        fetch(`https://art-papa-backend.vercel.app/affiches/${afficheId}`, {
+        fetch(`${API_URL}/affiches/${afficheId}`, {
             method: 'POST',
         })
             .then(response => response.json())
@@ -126,7 +127,7 @@ export default function adminFichiers() {
     }
 
     const deletePoster = (posterId) => {
-        fetch(`https://art-papa-backend.vercel.app/posters/${posterId}`, {
+        fetch(`${API_URL}/posters/${posterId}`, {
             method: 'POST',
         })
             .then(response => response.json())
@@ -148,7 +149,7 @@ export default function adminFichiers() {
     }
 
     const deletePhoto = (photoId) => {
-        fetch(`https://art-papa-backend.vercel.app/photos/${photoId}`, {
+        fetch(`${API_URL}/photos/${photoId}`, {
             method: 'POST',
         })
             .then(response => response.json())
@@ -170,7 +171,7 @@ export default function adminFichiers() {
     }
 
     const deleteTableau = (tableauId) => {
-        fetch(`https://art-papa-backend.vercel.app/tableaux/${tableauId}`, {
+        fetch(`${API_URL}/tableaux/${tableauId}`, {
             method: 'POST',
         })
             .then(response => response.json())
@@ -192,7 +193,7 @@ export default function adminFichiers() {
     }
 
     const deleteExpo = (expoId) => {
-        fetch(`https://art-papa-backend.vercel.app/expositions/${expoId}`, {
+        fetch(`${API_URL}/expositions/${expoId}`, {
             method: 'POST',
         })
             .then(response => response.json())

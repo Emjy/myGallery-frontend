@@ -1,11 +1,11 @@
 {
-  "name": "nextjs-template",
+  "name": "artpapa-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -16,24 +16,18 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/lab": "^5.0.0-alpha.169",
     "@mui/material": "^5.15.14",
-    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/x-date-pickers": "^7.1.0",
     "@reduxjs/toolkit": "^2.2.2",
     "axios": "^1.6.8",
-    "b64-to-blob": "^1.2.19",
     "browser-image-compression": "^2.0.2",
     "dayjs": "^1.11.10",
-    "masonry": "^0.0.2",
-    "mui": "^0.0.1",
-    "multer": "^1.4.5-lts.1",
-    "next": "12.1.6",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
+    "next": "^14.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-redux": "^9.1.0",
     "react-responsive-masonry": "^2.2.0",
     "redux": "^5.0.1",
-    "redux-persist": "^6.0.0",
-    "styled-components": "^6.1.8"
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",

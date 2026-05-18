@@ -1,83 +1,69 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import Header from '../components/Header';
 
-// Composants
-import Header from "../components/Header";
-import PhotoCard from "../components/PhotoCard";
-
-// Style
-import styles from "../styles/Photos.module.css";
+const ResponsiveMasonry = dynamic(() => import('react-responsive-masonry').then(m => m.ResponsiveMasonry), { ssr: false });
+const Masonry = dynamic(() => import('react-responsive-masonry').then(m => m.default), { ssr: false });
+import PhotoCard from '../components/PhotoCard';
+import styles from '../styles/Photos.module.css';
+import { API_URL } from '../lib/api';
 
 export default function Photos() {
-
-  const router = useRouter();
-
   const [photoData, setPhotoData] = useState([]);
   const [fullPage, setFullPage] = useState('');
 
-
-  // Récupération des photos
   useEffect(() => {
-    fetch(`https://art-papa-backend.vercel.app/photos/`)
-      .then((response) => response.json())
+    fetch(`${API_URL}/photos/`)
+      .then((r) => r.json())
       .then((data) => {
-        if (data.result) {
-          // Tri des affiches par date de création
-          const sortedPhoto = data.photos.sort((a, b) => {
-            return new Date(b.creationDate) - new Date(a.creationDate); // Pour un tri décroissant, inversez pour un tri croissant
-          });
-          // Récupéreration des affiches
-          setPhotoData(sortedPhoto);
-        }
+        if (!data.result) return;
+        setPhotoData(
+          [...data.photos].sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate))
+        );
       });
   }, []);
 
-  const handleCloseFullPage = () => {
-    setFullPage(''); // Efface l'URL de l'image, ce qui ferme la surimpression
-  };
-
-  const photos = photoData.map((item, index) => {
-
-    return (
-      <div className={styles.photoItem} key={index} onClick={(e) => {
-        e.stopPropagation(); // Empêche l'événement de clic de se propager
-        setFullPage(item.imageName);
-      }} >
-        <PhotoCard
-          photo={item.imageName}
-          name={item.photoName}
-          auteur={item.auteur}
-          prix={item.prix}
-
-        />
-      </div>
-    );
-  });
-
   return (
-
     <>
       <div className={styles.page} style={{ filter: fullPage ? 'blur(8px)' : '' }}>
         <Header />
-
-        {photos.length > 0 &&
-          <div className={styles.photoContainer} >
-            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 700: 2, 1050: 3, 1400: 4, 1750: 5 }}
-              className={styles.photos}>
-              <Masonry gutter="16px">{photos}</Masonry>
+        {photoData.length > 0 ? (
+          <div className={styles.photoContainer}>
+            <ResponsiveMasonry
+              columnsCountBreakPoints={{ 350: 1, 700: 2, 1050: 3, 1400: 4, 1750: 5 }}
+              className={styles.photos}
+            >
+              <Masonry gutter="16px">
+                {photoData.map((item) => (
+                  <div
+                    className={styles.photoItem}
+                    key={item._id}
+                    onClick={(e) => { e.stopPropagation(); setFullPage(item.imageName); }}
+                  >
+                    <PhotoCard
+                      photo={item.imageName}
+                      name={item.photoName}
+                      auteur={item.auteur}
+                      prix={item.prix}
+                    />
+                  </div>
+                ))}
+              </Masonry>
             </ResponsiveMasonry>
-          </div>}
-        {photos.length === 0 &&
-          <div style={{ padding: '4rem', color: 'white', opacity: '0.2', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            {'Pas de photos pour le moment'}
-          </div>}
+          </div>
+        ) : (
+          <div style={{ padding: '4rem', color: 'white', opacity: 0.2, display: 'flex', justifyContent: 'center' }}>
+            Pas de photos pour le moment
+          </div>
+        )}
       </div>
 
-      {fullPage && <div className={styles.photoFullPage} onClick={() => handleCloseFullPage()}>
-        <img src={fullPage} />
-      </div>}
+      {fullPage && (
+        <div className={styles.photoFullPage} onClick={() => setFullPage('')}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={fullPage} alt="Photo plein écran" />
+        </div>
+      )}
     </>
-
   );
 }

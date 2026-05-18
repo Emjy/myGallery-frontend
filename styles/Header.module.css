@@ -1,83 +1,153 @@
-.logo {
-    width :50px;
-    height: auto;
-    margin: 8px ; 
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
 }
 
-.header {
+.topBar {
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 32px;
-  
+  padding: 0 40px;
 }
 
-.headerLinks {
+.brand {
   display: flex;
-  gap: 16px;
-}
-
-.headerItem {
-  text-decoration: none;
-  color: white;
-}
-
-.headerItem:hover {
+  flex-direction: column;
+  gap: 2px;
   cursor: pointer;
-  color: white;
-  
-}
-
-.menu {
-  display: flex;
-  gap: 8px;
-  height: 50px;
-  width: 100vw;
-  justify-content: center;
-  align-items: center;  
-  padding-bottom: 32px;
-  color: white; 
-
-}
-
-
-.menuItem {
-  display: flex;
-  justify-content: center;
   text-decoration: none;
-  width: 300px;
-  color: white; 
-
 }
 
-.menuItem:hover {
+.brandName {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.brandSub {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.topRight {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.topLink {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
   cursor: pointer;
-  font-weight: bold;
-  opacity: 1;
-
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-
-
-/* Pour les écrans de taille moyenne à grande */
-@media screen and (min-width: 768px) {
-  .menu {
-    font-size: 20px;
-      /* Taille de texte par défaut pour les écrans moyens à grands */
-  }
-
-  .header {
-    font-size: 16px; /* Taille de texte par défaut pour les écrans moyens à grands */
-  }
+.topLink:hover {
+  color: var(--accent);
 }
 
-/* Pour les petits écrans comme les smartphones */
-@media screen and (max-width: 767px) {
-  .menu {
-    font-size: 8px;
-      /* Réduire la taille du texte pour les petits écrans */
+.adminBadge {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  background: var(--accent);
+  color: var(--white);
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.adminBadge:hover {
+  opacity: 0.85;
+}
+
+.logoutBtn {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color var(--transition-fast);
+}
+
+.logoutBtn:hover {
+  color: var(--ink);
+}
+
+.nav {
+  height: 46px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 0 40px;
+}
+
+.navLink {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.navLink:hover {
+  color: var(--accent);
+}
+
+.navLinkActive {
+  border-bottom: 2px solid var(--accent);
+  color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .topBar {
+    padding: 0 20px;
   }
-  .header {
-    font-size: 8px; /* Taille de texte par défaut pour les écrans moyens à grands */
+
+  .nav {
+    gap: 20px;
+    padding: 0 20px;
+    overflow-x: auto;
+  }
+
+  .brandName {
+    font-size: 1.3rem;
+  }
+
+  .topRight {
+    gap: 12px;
+  }
+
+  .topLink {
+    font-size: 0.65rem;
   }
 }

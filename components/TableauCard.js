@@ -1,16 +1,21 @@
-import React from "react";
+import Image from 'next/image';
+import styles from '../styles/TableauCard.module.css';
 
-// Style
-import styles from "../styles/TableauCard.module.css";
-
-export default function TableauCard(props) {
+export default function TableauCard({ tableau, name, auteur, prix }) {
   return (
     <div className={styles.tableauCard}>
-      <img src={props.tableau} className={styles.tableauImage} />
+      <Image
+        src={tableau}
+        alt={name || 'Tableau'}
+        width={600}
+        height={900}
+        className={styles.tableauImage}
+        loading="lazy"
+      />
       <div className={styles.textOverlay}>
-        <div className={styles.tableauName}>{props.name}</div>
-        <div className={styles.auteurName}>{props.auteur}</div>
-        <div className={styles.price}>{props.prix} €</div>
+        <div className={styles.tableauName}>{name}</div>
+        <div className={styles.auteurName}>{auteur}</div>
+        <div className={styles.price}>{prix} €</div>
       </div>
     </div>
   );

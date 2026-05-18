@@ -1,54 +1,48 @@
-import React from 'react'
-import dayjs from 'dayjs'
+import Image from 'next/image';
+import dayjs from 'dayjs';
+import styles from '../styles/ExpoCard.module.css';
 
-// Style
-import styles from "../styles/ExpoCard.module.css";
-
-// MUI components
 import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 
-export default function ExpoCard(props) {
+export default function ExpoCard({ expoImg, expoName, auteur, adresse, startDate, endDate }) {
+  const format = 'DD/MM/YYYY';
+  const start = dayjs(startDate).format(format);
+  const end = dayjs(endDate).format(format);
 
-    // Formatter les dates
-    const format = 'DD/MM/YYYY'; // Format de date désiré
+  return (
+    <div className={styles.expoCard}>
+      <Image
+        src={expoImg}
+        alt={expoName || 'Exposition'}
+        width={800}
+        height={500}
+        className={styles.expoImage}
+        loading="lazy"
+      />
 
-    const startDate = dayjs(props.startDate).format(format);
-    const endDate = dayjs(props.endDate).format(format);
-
-    return (
-        <div className={styles.expoCard}>
-            <img src={props.expoImg} className={styles.expoImage} />
-
-
-            <div className={styles.bottomCard}>
-
-                <div className={styles.infos}>
-                    <div className={styles.adresse}>
-                        <LocationOnRoundedIcon />
-                        {props.adresse}
-                    </div>
-
-                    <div className={styles.dates}>
-                        <CalendarMonthRoundedIcon />
-                        {`${startDate} - ${endDate}`}
-                    </div>
-                    <div className={styles.statut}>
-                        <AccessTimeFilledRoundedIcon/>
-                        {new Date() > new Date(props.endDate) ? 'Terminée' : 'En cours'}
-                    </div>
-                </div>
-
-            </div>
-
-            <div className={styles.nom}>
-                {props.expoName}
-                <div className={styles.auteur}>
-                    {props.auteur}
-                </div>
-            </div>
-
+      <div className={styles.bottomCard}>
+        <div className={styles.infos}>
+          <div className={styles.adresse}>
+            <LocationOnRoundedIcon />
+            {adresse}
+          </div>
+          <div className={styles.dates}>
+            <CalendarMonthRoundedIcon />
+            {`${start} - ${end}`}
+          </div>
+          <div className={styles.statut}>
+            <AccessTimeFilledRoundedIcon />
+            {new Date() > new Date(endDate) ? 'Terminée' : 'En cours'}
+          </div>
         </div>
-    )
+      </div>
+
+      <div className={styles.nom}>
+        {expoName}
+        <div className={styles.auteur}>{auteur}</div>
+      </div>
+    </div>
+  );
 }

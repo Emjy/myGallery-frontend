@@ -20,8 +20,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-// Transfert des data vers cloudinary
 import axios from "axios";
+import { API_URL } from "../lib/api";
 
 export default function UploadFile() {
 
@@ -64,7 +64,7 @@ export default function UploadFile() {
     formData.append("description", description);
 
 
-    axios.post("https://art-papa-backend.vercel.app/expositions/", formData, {
+    axios.post(`${API_URL}/expositions/`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

@@ -1,35 +1,77 @@
 .page {
-    display: flex ; 
-        flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 80vh;
+  padding-top: var(--header-h);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
 }
 
-.contacts {
-    display:flex ; 
-    flex-direction: column;
-    color: white ;  
-    gap: 16px;
+.card {
+  max-width: 480px;
+  width: 100%;
+  padding: 64px 40px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 48px;
+  line-height: 1.1;
 }
 
 .contactItem {
-    display:flex ; 
-    align-items: center;
-    gap : 24px ; 
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
 }
 
-.icon {
-    font-size : 40px ; 
+.contactLabel {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
 }
 
-.logoContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.contactValue {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink);
 }
 
-.logo {
-    height: 30vw;
+.contactValue a {
+  color: var(--ink);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.contactValue a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 40px 24px;
+    margin: 0 16px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
 }

@@ -1,0 +1,52 @@
+.confirmOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 13, 13, 0.82);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 20;
+}
+
+.confirmText {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #fff;
+}
+
+.confirmBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.confirmYes {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.confirmYes:hover { opacity: 0.85; }
+
+.confirmNo {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.confirmNo:hover { color: #fff; border-color: #fff; }

@@ -1,38 +1,23 @@
-import React from "react";
+import React from 'react';
+import Header from '../components/Header';
+import styles from '../styles/Contact.module.css';
 
-// Style
-import styles from "../styles/Contact.module.css";
-
-// Components
-import Header from "../components/Header";
-
-// mui components
-import PhoneIphoneRoundedIcon from "@mui/icons-material/PhoneIphoneRounded";
-import AlternateEmailRoundedIcon from "@mui/icons-material/AlternateEmailRounded";
-
-export default function contact() {
+export default function Contact() {
   return (
     <div>
       <Header />
-
       <div className={styles.page}>
-
-        <div className={styles.logoContainer}>
-          <img src="logo.png" className={styles.logo}></img>
-        </div>
-        
-        <div className={styles.contacts}>
-          {/* <div className={styles.contactItem}>
-            <PhoneIphoneRoundedIcon className={styles.icon} />
-            {"00"}
-          </div> */}
+        <div className={styles.card}>
+          <p className={styles.eyebrow}>Contact</p>
+          <h1 className={styles.title}>Prendre contact</h1>
           <div className={styles.contactItem}>
-            <AlternateEmailRoundedIcon className={styles.icon} />
-            {"giraudliard@gmail.com"}
+            <span className={styles.contactLabel}>Email</span>
+            <span className={styles.contactValue}>
+              <a href="mailto:giraudliard@gmail.com">giraudliard@gmail.com</a>
+            </span>
           </div>
         </div>
       </div>
-      
     </div>
   );
 }

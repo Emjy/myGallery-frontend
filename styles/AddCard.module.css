@@ -1,0 +1,30 @@
+.card {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border: 1.5px dashed var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+  background: transparent;
+}
+
+.card:hover {
+  border-color: var(--ink);
+  background: rgba(13, 13, 13, 0.03);
+}
+
+.plus {
+  font-size: 2rem;
+  font-weight: 200;
+  color: var(--border);
+  line-height: 1;
+  transition: color var(--transition-fast);
+  font-family: var(--font-body);
+}
+
+.card:hover .plus {
+  color: var(--ink);
+}

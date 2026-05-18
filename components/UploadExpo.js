@@ -1,221 +1,133 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useRef } from 'react';
 import imageCompression from 'browser-image-compression';
-import dayjs from 'dayjs';
+import axios from 'axios';
+import styles from '../styles/UploadStyle.module.css';
+import { API_URL } from '../lib/api';
 
+const COMPRESS_OPTS = { maxSizeMB: 4.9, maxWidthOrHeight: 1920, useWebWorker: true, fileType: 'image/jpeg' };
 
-// Composants 
-import CustomSnackbar from "./CustomSnackBar";
+export default function UploadExpo() {
+  const fileRef = useRef();
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState('');
+  const [expoName, setExpoName] = useState('');
+  const [auteur, setAuteur] = useState('');
+  const [adresse, setAdresse] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [description, setDescription] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [over, setOver] = useState(false);
 
-// Style
-import styles from "../styles/UploadStyle.module.css";
-
-// Composants MUI
-import Button from "@mui/material/Button";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-import axios from "axios";
-import { API_URL } from "../lib/api";
-
-export default function UploadFile() {
-
-  const fileInputRef = useRef(); // Créez une référence pour le champ de fichier
-  const [expo, setExpo] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
-
-  const [expoName, setExpoName] = useState("");
-  const [auteur, setAuteur] = useState("");
-  const [adresse, setAdresse] = useState("");
-  const [startDate, setStartDate] = useState(dayjs())
-  const [endDate, setEndDate] = useState(dayjs())
-  const [description, setDescription] = useState("");
-
-  const [open, setOpen] = useState(false)
-
-
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
-
-  const uploadExpo = () => {
-    const formData = new FormData();
-    if (expo) {
-      formData.append("file", expo);
-    }
-    formData.append("expoName", expoName);
-    formData.append("adresse", adresse);
-    formData.append("auteur", auteur);
-    formData.append("startDate", startDate);
-    formData.append("endDate", endDate);
-    formData.append("description", description);
-
-
-    axios.post(`${API_URL}/expositions/`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-      .then(() => {
-        console.log("image uploaded");
-        // Réinitialiser vos états ici
-        setExpoName("");
-        setAuteur("");
-        setDescription("");
-        setAdresse('');
-        setExpo(null);
-        setPreviewUrl(null); // Supprimer l'URL de l'aperçu
-        // Réinitialisez le champ de fichier
-        if (fileInputRef.current) {
-          fileInputRef.current.value = "";
-        }
-      })
-      .catch((error) => console.log(error));
+  const processFile = async (raw) => {
+    const compressed = await imageCompression(raw, COMPRESS_OPTS);
+    setFile(compressed);
+    setPreview(URL.createObjectURL(compressed));
+    setSuccess(false);
   };
 
-  const handleChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const options = {
-        maxSizeMB: 4.9, // Taille maximale en MegaBytes
-        maxWidthOrHeight: 1920, // Largeur ou hauteur maximale en pixels
-        useWebWorker: true,
-        fileType: 'image/jpeg', // Conversion en JPEG
-        convertSize: 5000000, // Convertir les images plus grandes que 5 MB en JPEG (si elles ne sont pas déjà en JPEG)
-      };
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setOver(false);
+    const f = e.dataTransfer.files[0];
+    if (f) processFile(f);
+  };
 
-      try {
-        const compressedFile = await imageCompression(file, options);
-        setExpo(compressedFile);
-        setPreviewUrl(URL.createObjectURL(compressedFile));
-      } catch (error) {
-        console.error(error);
-      }
+  const handleSubmit = async () => {
+    if (!file) return;
+    setLoading(true);
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('expoName', expoName);
+    fd.append('auteur', auteur);
+    fd.append('adresse', adresse);
+    fd.append('startDate', startDate);
+    fd.append('endDate', endDate);
+    fd.append('description', description);
+    try {
+      await axios.post(`${API_URL}/expositions/`, fd);
+      setFile(null); setPreview(''); setExpoName(''); setAuteur('');
+      setAdresse(''); setStartDate(''); setEndDate(''); setDescription('');
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 4000);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (!preview) {
+    return (
+      <div
+        className={`${styles.dropzone} ${over ? styles.dropzoneOver : ''}`}
+        onDragOver={(e) => { e.preventDefault(); setOver(true); }}
+        onDragLeave={() => setOver(false)}
+        onDrop={handleDrop}
+      >
+        <input className={styles.fileInput} type="file" accept="image/*"
+          ref={fileRef} onChange={(e) => e.target.files[0] && processFile(e.target.files[0])} />
+        <span className={styles.dropzoneIcon}>+</span>
+        <span className={styles.dropzoneLabel}>Glisser l'image de couverture ici</span>
+        <span className={styles.dropzoneHint}>ou cliquer pour parcourir</span>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.uploadForm}>
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          startIcon={<AddPhotoAlternateIcon />}
-          ref={fileInputRef}
-          onChange={(event) => handleChange(event)}
-          className={styles.formItem}
-
-        >
-          Image de couverture
-          <VisuallyHiddenInput type="file" />
-        </Button>
-
-        {previewUrl && (
-          <img
-            src={previewUrl}
-            alt="Preview"
-            style={{ display: "block", maxHeight: "500px" }}
-          />
-        )}
-
-        <TextField
-          id="outlined-basic"
-          label="Nom de l'expo"
-          variant="outlined"
-          value={expoName}
-          onChange={(event) => setExpoName(event.target.value)}
-          className={styles.formItem}
-        />
-
-        <TextField
-          id="outlined-basic"
-          label="Auteur"
-          variant="outlined"
-          value={auteur}
-          onChange={(event) => setAuteur(event.target.value)}
-          className={styles.formItem}
-
-        />
-
-        <TextField
-          id="outlined-basic"
-          label="Adresse"
-          variant="outlined"
-          value={adresse}
-          onChange={(event) => setAdresse(event.target.value)}
-          className={styles.formItem}
-
-        />
-
-        <div className={styles.formItem} style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Date de début"
-              value={startDate}
-              onChange={(newValue) => setStartDate(newValue)}
-
-            />
-          </LocalizationProvider>
-
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Date de fin"
-              value={endDate}
-              onChange={(newValue) => setEndDate(newValue)}
-            />
-          </LocalizationProvider>
-
+    <div className={styles.form}>
+      <div className={styles.layout}>
+        <div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={preview} alt="Aperçu" className={styles.preview} />
+          <button className={styles.changeImg}>
+            Changer l'image
+            <input className={styles.changeImgInput} type="file" accept="image/*"
+              onChange={(e) => e.target.files[0] && processFile(e.target.files[0])} />
+          </button>
         </div>
 
+        <div className={styles.fields}>
+          <div className={styles.field}>
+            <label className={styles.label}>Nom de l'exposition</label>
+            <input className={styles.input} type="text" value={expoName}
+              onChange={(e) => setExpoName(e.target.value)} placeholder="Titre de l'expo" />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Auteur</label>
+            <input className={styles.input} type="text" value={auteur}
+              onChange={(e) => setAuteur(e.target.value)} placeholder="François Giraud" />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Adresse</label>
+            <input className={styles.input} type="text" value={adresse}
+              onChange={(e) => setAdresse(e.target.value)} placeholder="Galerie X, Paris" />
+          </div>
+          <div className={styles.row}>
+            <div className={styles.field}>
+              <label className={styles.label}>Date début</label>
+              <input className={styles.input} type="date" value={startDate}
+                onChange={(e) => setStartDate(e.target.value)} />
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>Date fin</label>
+              <input className={styles.input} type="date" value={endDate}
+                onChange={(e) => setEndDate(e.target.value)} />
+            </div>
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Description</label>
+            <textarea className={styles.textarea} value={description}
+              onChange={(e) => setDescription(e.target.value)} rows={3}
+              placeholder="Description de l'exposition…" />
+          </div>
 
-        <TextField
-          id="outlined-multiline-static"
-          label="Description"
-          multiline
-          maxRows={30}
-          rows={5}
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-          className={styles.formItem}
+          <button className={styles.submitBtn} onClick={handleSubmit}
+            disabled={loading || !expoName}>
+            {loading ? 'Envoi en cours…' : 'Publier l\'exposition'}
+          </button>
 
-        />
-
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          startIcon={<CloudUploadIcon />}
-          onClick={() => uploadExpo()}
-          className={styles.formItem}
-
-        >
-          Envoi Expo
-        </Button>
-
-        <CustomSnackbar
-          open={open}
-          handleClose={() => setOpen(false)}
-          message="Photo envoyée"
-          duration={3000}
-        />
-
+          {success && <p className={styles.success}>Exposition publiée avec succès.</p>}
+        </div>
       </div>
     </div>
   );

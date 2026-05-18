@@ -1,78 +1,65 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/user';
+import styles from '../styles/SignIn.module.css';
+import { API_URL } from '../lib/api';
 
-// Style
-import styles from "../styles/SignIn.module.css";
+export default function SignIn() {
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-// Composant MUI
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
 
+  const handleConnection = () => {
+    fetch(`${API_URL}/users/signIn`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user, password }),
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.result) {
+          dispatch(login({ token: data.token, user: data.user }));
+          setUser('');
+          setPassword('');
+          router.push('/upload');
+        }
+      });
+  };
 
-export default function signIn() {
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleConnection();
+  };
 
-    const router = useRouter();
-    const dispatch = useDispatch();
-
-    const [user, setUser] = useState('');
-    const [password, setPassword] = useState('');
-
-    // Connection 
-    const handleConnection = () => {
-        fetch('https://art-papa-backend.vercel.app/users/signIn', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ user, password }),
-        }).then(response => response.json())
-            .then(data => {
-                if (data.result) {
-                    dispatch(login({ token: data.token, user: data.user }));
-                    setUser('');
-                    setPassword('');
-                    router.push("/upload")
-                } else {
-
-                }
-            });
-    };
-
-    return (
-        <div className={styles.page}>
-
-            <img src='logob.jpg' className={styles.logo} />
-            <TextField
-                id="outlined-basic"
-                label="Utilisateur"
-                variant="outlined"
-                value={user}
-                onChange={(event) => setUser(event.target.value)}
-
-            />
-
-            <TextField
-                id="outlined-password-input"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-
-            />
-
-            <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={undefined}
-                onClick={() => handleConnection()}
-            >
-                Connexion
-            </Button>
-
-        </div>
-    )
+  return (
+    <div className={styles.page}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/logo.png" alt="Logo" className={styles.logo} />
+      <div className={styles.form}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Utilisateur"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+          onKeyDown={handleKeyDown}
+          autoComplete="username"
+        />
+        <input
+          className={styles.input}
+          type="password"
+          placeholder="Mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={handleKeyDown}
+          autoComplete="current-password"
+        />
+        <button className={styles.btn} onClick={handleConnection}>
+          Connexion
+        </button>
+      </div>
+    </div>
+  );
 }

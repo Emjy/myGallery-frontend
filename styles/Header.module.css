@@ -8,146 +8,133 @@
   border-bottom: 1px solid var(--border);
 }
 
-.topBar {
-  height: 64px;
+.bar {
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 32px;
+  gap: 24px;
 }
 
 .brand {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  cursor: pointer;
+  align-items: center;
+  gap: 10px;
   text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 2px;
 }
 
 .brandName {
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   font-weight: 400;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.2em;
   color: var(--ink);
   line-height: 1;
 }
 
-.brandSub {
-  font-family: var(--font-body);
-  font-size: 0.68rem;
-  color: var(--muted);
-  letter-spacing: 0.05em;
-}
-
-.topRight {
+.nav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+  justify-content: center;
+}
+.nav::-webkit-scrollbar { display: none; }
+
+.navLink {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.navLink:hover { color: var(--accent); }
+.navLinkActive { border-bottom: 2px solid var(--accent); }
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
 }
 
 .topLink {
   font-family: var(--font-body);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink);
-  cursor: pointer;
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-.topLink:hover {
-  color: var(--accent);
-}
-
-.adminBadge {
-  font-family: var(--font-body);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  background: var(--accent);
-  color: var(--white);
-  padding: 3px 8px;
-  border-radius: 2px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: opacity var(--transition-fast);
-}
-
-.adminBadge:hover {
-  opacity: 0.85;
-}
-
-.logoutBtn {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
-  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.topLink:hover { color: var(--ink); }
+
+.adminBadge {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  background: var(--accent);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.adminBadge:hover { opacity: 0.85; }
+
+.logoutBtn {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
   background: none;
   border: none;
   padding: 0;
-  transition: color var(--transition-fast);
-}
-
-.logoutBtn:hover {
-  color: var(--ink);
-}
-
-.nav {
-  height: 46px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  padding: 0 40px;
-}
-
-.navLink {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink);
   cursor: pointer;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.logoutBtn:hover { color: var(--ink); }
+
+.signinLink {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
   text-decoration: none;
-  padding-bottom: 2px;
-  border-bottom: 2px solid transparent;
-  transition: border-color var(--transition-fast), color var(--transition-fast);
+  transition: color 0.2s;
+  white-space: nowrap;
 }
+.signinLink:hover { color: var(--ink); }
 
-.navLink:hover {
-  color: var(--accent);
-}
-
-.navLinkActive {
-  border-bottom: 2px solid var(--accent);
-  color: var(--ink);
-}
-
+/* ── Mobile ── */
 @media (max-width: 640px) {
-  .topBar {
-    padding: 0 20px;
-  }
-
-  .nav {
-    gap: 20px;
-    padding: 0 20px;
-    overflow-x: auto;
-  }
-
-  .brandName {
-    font-size: 1.3rem;
-  }
-
-  .topRight {
-    gap: 12px;
-  }
-
-  .topLink {
-    font-size: 0.65rem;
-  }
+  .bar { padding: 0 14px; gap: 12px; height: 54px; }
+  .brandName { font-size: 1.1rem; letter-spacing: 0.15em; }
+  .logo { width: 28px; height: 28px; }
+  .nav { gap: 16px; justify-content: flex-start; }
+  .navLink { font-size: 0.65rem; letter-spacing: 0.09em; }
+  .topLink { display: none; }
+  .right { gap: 10px; }
 }

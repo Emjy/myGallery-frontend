@@ -1,42 +1,78 @@
 .page {
-  width: 100vw;
-  height: 100vh;
+  padding-top: var(--header-h);
+  min-height: 100vh;
+  background: var(--paper);
 }
 
-.photoContainer {
+.toolbar {
   display: flex;
-  justify-content: center;
-  overflow: auto;
-  height: 80vh;
-}
-
-.photos {
-  width: 95vw;
-}
-
-.title {
-  font-size: 48px;
-}
-
-.photoItem {
-  display: flex;
-}
-
-.photoFullPage {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border);
 }
 
-.photoFullPage img {
-  max-width: 80%;
-  max-height: 80%;
-  object-fit: contain;
+.label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+
+.masonry { padding: 24px 40px; }
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 24px 40px;
+}
+
+.photoWrapper { break-inside: avoid; display: flex; flex-direction: column; }
+.photoItem { cursor: pointer; }
+
+.cardActions { display: flex; justify-content: flex-end; padding: 4px 2px 0; }
+.editBtn {
+  font-size: 0.8rem; color: var(--muted); background: none; border: none;
+  cursor: pointer; padding: 2px 4px; transition: color var(--transition-fast);
+}
+.editBtn:hover { color: var(--ink); }
+
+.addRow { display: flex; justify-content: center; padding: 16px 40px 40px; }
+.addBtn {
+  font-family: var(--font-body); font-size: 0.75rem; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--muted); background: transparent;
+  border: 1px solid var(--border); padding: 10px 24px; cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+.addBtn:hover { color: var(--ink); border-color: var(--ink); }
+
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+  z-index: 200; display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.lightboxImg { max-height: 90vh; max-width: 90vw; object-fit: contain; }
+.lightboxClose {
+  position: absolute; top: 20px; right: 20px;
+  color: #fff; font-size: 1.5rem; cursor: pointer;
+  background: none; border: none; opacity: 0.7;
+}
+.lightboxClose:hover { opacity: 1; }
+
+.empty {
+  text-align: center; color: var(--muted);
+  font-family: var(--font-display); font-size: 1.5rem;
+  font-style: italic; padding: 80px 40px;
+}
+
+@media (max-width: 768px) {
+  .masonry { padding: 16px 20px; }
+  .toolbar { padding: 16px 20px; }
+}
+
+@media (max-width: 480px) {
+  .masonry { padding: 10px; }
+  .toolbar { padding: 12px 16px; }
+  .addRow { padding: 12px 16px 24px; }
 }

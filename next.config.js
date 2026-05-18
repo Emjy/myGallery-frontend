@@ -2,6 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:3000/:path*',
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
@@ -9,7 +17,10 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
       },
       {
-        // ImgBB (images existantes pendant la migration)
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
         protocol: 'https',
         hostname: 'i.ibb.co',
       },

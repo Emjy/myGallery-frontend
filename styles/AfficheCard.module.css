@@ -1,57 +1,43 @@
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
 .card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.imageWrapper {
   position: relative;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   border-radius: 2px;
-  width: 100%;
-  height: 100%;
+  background: #e8e8e8;
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #e8e8e8 25%, #f4f4f4 50%, #e8e8e8 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  z-index: 1;
 }
 
 .image {
-  object-fit: cover;
   width: 100%;
   height: 100%;
-  transition: transform var(--transition);
+  object-fit: cover;
   display: block;
+  transition: transform 0.4s ease, opacity 0.3s ease;
 }
 
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 55%);
-  opacity: 0;
-  transition: opacity var(--transition);
-  pointer-events: none;
-}
+.imageHidden { opacity: 0; }
+.imageVisible { opacity: 1; }
 
-.text {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  right: 16px;
-}
-
-.filmName {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-style: italic;
-  color: #ffffff;
-  line-height: 1.2;
-}
-
-.realName {
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.65);
-  margin-top: 4px;
-  text-transform: uppercase;
-}
-
-.card:hover .overlay {
-  opacity: 1;
-}
-
-.card:hover .image {
+.imageWrapper:hover .image {
   transform: scale(1.04);
 }
 
@@ -60,22 +46,46 @@
   top: 8px;
   right: 8px;
   z-index: 10;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--accent);
-  color: #ffffff;
+  color: #fff;
   font-size: 1rem;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity var(--transition-fast);
+  transition: opacity 0.2s ease;
   cursor: pointer;
   border: none;
 }
 
-.card:hover .deleteBtn {
+.imageWrapper:hover .deleteBtn {
   opacity: 1;
+}
+
+.info {
+  padding: 8px 2px 0;
+}
+
+.filmName {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.realName {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: 2px;
+  text-transform: uppercase;
 }

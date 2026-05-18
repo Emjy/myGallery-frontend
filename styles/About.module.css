@@ -1,38 +1,96 @@
 .page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 80vh;
+  padding-top: var(--header-h);
+  min-height: 100vh;
+  background: var(--paper);
 }
 
-.logoContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.hero {
+  padding: 64px 40px;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 64px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.textCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 16px 0;
+  color: var(--ink);
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.divider {
+  width: 48px;
+  height: 1px;
+  background: var(--accent);
+  margin: 32px 0;
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: var(--muted);
+  max-width: 500px;
+}
+
+.copyright {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 48px;
+  line-height: 1.7;
+}
+
+.visual {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 16px;
 }
 
 .logo {
-    height: 30vw;
+  max-width: 180px;
+  height: auto;
+  opacity: 0.6;
 }
 
-.desc {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    gap: 16px
-}
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 40px 24px;
+  }
 
-.title {
-    font-size: 50px;
-    text-align: center;
-}
+  .name {
+    font-size: 2.5rem;
+  }
 
-.text {
-    font-size: 12px;
-    padding: 0px 30px;
-    text-align: justify;
+  .visual {
+    display: none;
+  }
 }

@@ -1,113 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../reducers/user';
+import Header from '../components/Header';
+import styles from '../styles/Upload.module.css';
+import UploadAffiche from '../components/UploadAffiche';
+import UploadPoster from '../components/UploadPoster';
+import UploadTableau from '../components/UploadTableau';
+import UploadPhoto from '../components/UploadPhoto';
+import UploadExpo from '../components/UploadExpo';
 
-//style
-import styles from "../styles/Upload.module.css";
+const TYPE_MAP = { affiche: 10, poster: 15, tableau: 20, photo: 30, expo: 40 };
+const LABELS = { 10: 'Affiche', 15: 'Poster', 20: 'Tableau', 30: 'Photo', 40: 'Expo' };
 
-//components
-import UploadAffiche from "../components/UploadAffiche";
-import UploadPoster from "../components/UploadPoster";
-import UploadTableau from "../components/UploadTableau";
-import UploadPhoto from "../components/UploadPhoto";
-import UploadExpo from "../components/UploadExpo";
-
-// components MUI
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import IconButton from '@mui/material/IconButton';
-import LogoutIcon from '@mui/icons-material/Logout';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-
-
-export default function upload() {
-
-  const token = useSelector((state) => state.user.value.token)
+export default function Upload() {
+  const token = useSelector((state) => state.user.value.token);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [file, setFile] = useState('');
 
-  const [file, setFile] = useState("");
-
-  const handleChange = (event) => {
-    setFile(event.target.value);
-  };
+  useEffect(() => {
+    if (!token) { router.push('/signIn'); return; }
+    if (router.isReady && router.query.type) {
+      const mapped = TYPE_MAP[router.query.type];
+      if (mapped) setFile(mapped);
+    }
+  }, [token, router.isReady, router.query.type]);
 
   const handleLogOut = () => {
     dispatch(logout({ token: null, user: null }));
-    router.push('./signIn')
-  }
+    router.push('/signIn');
+  };
 
-  const handleGestion = () => {
-    router.push('./adminFichiers')
-  }
-
-  // Récupération des affiches
-  useEffect(() => {
-    if (!token) {
-      router.push('./signIn')
-    }
-  }, [token]);
-
+  if (!token) return null;
 
   return (
-    <>
+    <div className={styles.page}>
+      <Header />
 
-      {token && <div className={styles.page}>
+      <div className={styles.toolbar}>
+        <select
+          className={styles.typeSelect}
+          value={file}
+          onChange={(e) => setFile(Number(e.target.value))}
+        >
+          <option value="">— Choisir un type —</option>
+          <option value={10}>Affiche</option>
+          <option value={15}>Poster</option>
+          <option value={20}>Tableau</option>
+          <option value={30}>Photo</option>
+          <option value={40}>Expo</option>
+        </select>
 
-        <div className={styles.logout}>
-          <IconButton onClick={() => handleGestion()} aria-label="Gestion">
-            <EditRoundedIcon />
-          </IconButton>
+        <button className={styles.logoutBtn} onClick={handleLogOut}>
+          Déconnexion
+        </button>
+      </div>
 
-          <IconButton onClick={() => handleLogOut()} aria-label="logout">
-            <LogoutIcon />
-          </IconButton>
-
-        </div>
-
-
-        <div className={styles.title}>{"Création d'un fichier"}</div>
-
-        <Box className={styles.selecteur}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Type de fichier</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={file}
-              label="Type de fichier"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Affiche</MenuItem>
-              <MenuItem value={15}>Poster</MenuItem>
-              <MenuItem value={20}>Tableau</MenuItem>
-              <MenuItem value={30}>Photo</MenuItem>
-              <MenuItem value={40}>Expo</MenuItem>
-
-            </Select>
-          </FormControl>
-        </Box>
-
+      {file && (
         <div className={styles.formContainer}>
-          {file == 10 && <UploadAffiche />}
-          {file == 15 && <UploadPoster />}
-          {file == 20 && <UploadTableau />}
-          {file == 30 && <UploadPhoto />}
-          {file == 40 && <UploadExpo />}
-
+          <h2 className={styles.formTitle}>Ajouter — {LABELS[file]}</h2>
+          {file === 10 && <UploadAffiche />}
+          {file === 15 && <UploadPoster />}
+          {file === 20 && <UploadTableau />}
+          {file === 30 && <UploadPhoto />}
+          {file === 40 && <UploadExpo />}
         </div>
-
-      </div>}
-
-    </>
-
-
-
+      )}
+    </div>
   );
 }

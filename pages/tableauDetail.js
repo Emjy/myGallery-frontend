@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
+import Link from 'next/link';
 import Header from '../components/Header';
 import styles from '../styles/TableauDetail.module.css';
 import { API_URL } from '../lib/api';
@@ -17,27 +17,40 @@ export default function TableauDetail() {
       .then((data) => { if (data.result) setTableau(data.tableau); });
   }, [id]);
 
-  if (!tableau) return <div><Header /></div>;
+  if (!tableau) {
+    return (
+      <div className={styles.page}>
+        <Header />
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <div className={styles.page}>
       <Header />
-      <div className={styles.page}>
-        <div className={styles.tableau}>
-          <Image
-            src={tableau.imageName}
-            alt={tableau.tableauName || 'Tableau'}
-            width={800}
-            height={1000}
-            className={styles.tableauVisual}
-            priority
-          />
+      <div className={styles.layout}>
+        <div className={styles.imageCol}>
+          <div className={styles.imageFrame}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={tableau.imageName}
+              alt={tableau.tableauName || 'Tableau'}
+              className={styles.image}
+            />
+          </div>
         </div>
-        <div className={styles.desc}>
-          <div className={styles.name}>{tableau.tableauName}</div>
-          <div className={styles.auteur}>{tableau.auteur}</div>
-          <div className={styles.prix}>{tableau.prix} €</div>
-          <div className={styles.description}>{'«' + tableau.description + '»'}</div>
+        <div className={styles.infoCol}>
+          <Link href="/tableaux" className={styles.backBtn}>
+            ← Retour aux tableaux
+          </Link>
+          <h1 className={styles.title}>{tableau.tableauName}</h1>
+          {tableau.auteur && <p className={styles.auteur}>{tableau.auteur}</p>}
+          {tableau.prix !== undefined && tableau.prix !== null && tableau.prix !== '' && (
+            <p className={styles.prix}>{tableau.prix} €</p>
+          )}
+          {tableau.description && (
+            <p className={styles.description}>« {tableau.description} »</p>
+          )}
         </div>
       </div>
     </div>

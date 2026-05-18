@@ -1,194 +1,105 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useRef } from 'react';
 import imageCompression from 'browser-image-compression';
+import axios from 'axios';
+import styles from '../styles/UploadStyle.module.css';
+import { API_URL } from '../lib/api';
 
-// Composants 
-import CustomSnackbar from "./CustomSnackBar";
+const COMPRESS_OPTS = { maxSizeMB: 4.9, maxWidthOrHeight: 1920, useWebWorker: true, fileType: 'image/jpeg' };
 
-// Style
-import styles from "../styles/UploadStyle.module.css";
+export default function UploadTableau() {
+  const fileRef = useRef();
+  const [queue, setQueue] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(0);
+  const [over, setOver] = useState(false);
 
-// Composants MUI
-import Button from "@mui/material/Button";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
-
-import axios from "axios";
-import { API_URL } from "../lib/api";
-
-export default function UploadFile() {
-  const fileInputRef = useRef(); // Créez une référence pour le champ de fichier
-  const [tableau, setTableau] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
-
-  const [tableauName, setTableauName] = useState("");
-  const [auteur, setAuteur] = useState("");
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState("");
-
-  const [open, setOpen] = useState(false)
-
-
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
-
-  const uploadTableau = () => {
-    const formData = new FormData();
-    if (tableau) {
-      formData.append("file", tableau);
-    }
-    formData.append("tableauName", tableauName);
-    formData.append("auteur", auteur);
-    formData.append("prix", price);
-    formData.append("description", description);
-
-
-
-    axios
-      .post(`${API_URL}/tableaux/`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(() => {
-        console.log("image uploaded");
-        // Réinitialiser vos états ici
-        setTableauName("");
-        setAuteur("");
-        setDescription("");
-        setPrice(0); // Réinitialiser le prix
-        setTableau(null);
-        setPreviewUrl(null); // Supprimer l'URL de l'aperçu
-        // Réinitialisez le champ de fichier
-        if (fileInputRef.current) {
-          fileInputRef.current.value = "";
-        }
-      })
-      .catch((error) => console.log(error));
+  const addFiles = async (rawFiles) => {
+    const items = await Promise.all(Array.from(rawFiles).map(async (f) => {
+      const compressed = await imageCompression(f, COMPRESS_OPTS);
+      return { file: compressed, preview: URL.createObjectURL(compressed), fields: {} };
+    }));
+    setQueue((q) => [...q, ...items]);
+    setDone(0);
   };
 
-  const handleChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const options = {
-        maxSizeMB: 4.9, // Taille maximale en MegaBytes
-        maxWidthOrHeight: 1920, // Largeur ou hauteur maximale en pixels
-        useWebWorker: true,
-        fileType: 'image/jpeg', // Conversion en JPEG
-        convertSize: 5000000, // Convertir les images plus grandes que 5 MB en JPEG (si elles ne sont pas déjà en JPEG)
-      };
+  const updateField = (idx, key, val) =>
+    setQueue((q) => q.map((item, i) => i === idx ? { ...item, fields: { ...item.fields, [key]: val } } : item));
 
-      try {
-        const compressedFile = await imageCompression(file, options);
-        setTableau(compressedFile);
-        setPreviewUrl(URL.createObjectURL(compressedFile));
-      } catch (error) {
-        console.error(error);
-      }
+  const remove = (idx) => setQueue((q) => q.filter((_, i) => i !== idx));
+
+  const submitAll = async () => {
+    setLoading(true);
+    let count = 0;
+    for (const item of queue) {
+      const fd = new FormData();
+      fd.append('file', item.file);
+      fd.append('tableauName', item.fields.tableauName || '');
+      fd.append('auteur', item.fields.auteur || '');
+      fd.append('prix', item.fields.prix || '');
+      fd.append('description', item.fields.description || '');
+      await axios.post(`${API_URL}/tableaux/`, fd);
+      count++;
+      setDone(count);
     }
+    setQueue([]);
+    setLoading(false);
   };
+
+  const handleDrop = (e) => { e.preventDefault(); setOver(false); addFiles(e.dataTransfer.files); };
+
+  if (queue.length === 0) {
+    return (
+      <div className={`${styles.dropzone} ${over ? styles.dropzoneOver : ''}`}
+        onDragOver={(e) => { e.preventDefault(); setOver(true); }}
+        onDragLeave={() => setOver(false)} onDrop={handleDrop}>
+        <input className={styles.fileInput} type="file" accept="image/*" multiple
+          ref={fileRef} onChange={(e) => addFiles(e.target.files)} />
+        <span className={styles.dropzoneIcon}>+</span>
+        <span className={styles.dropzoneLabel}>Glisser les images ici</span>
+        <span className={styles.dropzoneHint}>ou cliquer — sélection multiple possible</span>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.uploadForm}>
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          startIcon={<AddPhotoAlternateIcon />}
-          ref={fileInputRef}
-          onChange={(event) => handleChange(event)}
-          className={styles.formItem}
+    <div className={styles.form}>
+      {loading && (
+        <div className={styles.progressBar}>
+          <div className={styles.progressFill} style={{ width: `${(done / queue.length) * 100}%` }} />
+          <span className={styles.progressLabel}>{done} / {queue.length} envoyés</span>
+        </div>
+      )}
 
-        >
-          Image
-          <VisuallyHiddenInput type="file" />
-        </Button>
+      <div className={styles.multiGrid}>
+        {queue.map((item, idx) => (
+          <div className={styles.multiItem} key={idx}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={item.preview} alt="" className={styles.multiPreview} />
+            <button className={styles.removeBtn} onClick={() => remove(idx)}>×</button>
+            <div className={styles.multiFields}>
+              <input className={styles.input} type="text" placeholder="Titre *"
+                value={item.fields.tableauName || ''} onChange={(e) => updateField(idx, 'tableauName', e.target.value)} />
+              <input className={styles.input} type="text" placeholder="Auteur"
+                value={item.fields.auteur || ''} onChange={(e) => updateField(idx, 'auteur', e.target.value)} />
+              <input className={styles.input} type="text" placeholder="Prix (€)"
+                value={item.fields.prix || ''} onChange={(e) => updateField(idx, 'prix', e.target.value)} />
+              <textarea className={styles.textarea} placeholder="Description" rows={2}
+                value={item.fields.description || ''} onChange={(e) => updateField(idx, 'description', e.target.value)} />
+            </div>
+          </div>
+        ))}
 
-        {previewUrl && (
-          <img
-            src={previewUrl}
-            alt="Preview"
-            style={{ display: "block", maxHeight: "500px" }}
-          />
-        )}
-
-        <TextField
-          id="outlined-basic"
-          label="Nom du Tableau"
-          variant="outlined"
-          value={tableauName}
-          onChange={(event) => setTableauName(event.target.value)}
-          className={styles.formItem}
-        />
-
-        <TextField
-          id="outlined-basic"
-          label="Auteur"
-          variant="outlined"
-          value={auteur}
-          onChange={(event) => setAuteur(event.target.value)}
-          className={styles.formItem}
-
-        />
-
-        <TextField
-          id="outlined-number"
-          label="Prix"
-          type="number"
-          value={price}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={(event) => setPrice(Number(event.target.value))}
-          className={styles.formItem}
-
-        />
-         
-        <TextField
-          id="outlined-multiline-static"
-          label="Description"
-          multiline
-          maxRows={30}
-          rows={5} 
-          value={description} 
-          onChange={(event) => setDescription(event.target.value)}
-          className={styles.formItem}
-
-        />
-
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          startIcon={<CloudUploadIcon />}
-          onClick={() => uploadTableau()}
-          className={styles.formItem}
-
-        >
-          Envoi Tableau
-        </Button>
-
-        <CustomSnackbar
-          open={open}
-          handleClose={() => setOpen(false)}
-          message="Photo envoyée"
-          duration={3000}
-        />
-
+        <label className={styles.addMore}>
+          <input type="file" accept="image/*" multiple style={{ display: 'none' }}
+            onChange={(e) => addFiles(e.target.files)} />
+          +
+        </label>
       </div>
+
+      <button className={styles.submitBtn} onClick={submitAll}
+        disabled={loading || queue.every(i => !i.fields.tableauName)}>
+        {loading ? `Envoi en cours… (${done}/${queue.length})` : `Publier ${queue.length} tableau${queue.length > 1 ? 'x' : ''}`}
+      </button>
     </div>
   );
 }

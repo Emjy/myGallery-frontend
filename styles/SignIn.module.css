@@ -1,16 +1,57 @@
 .page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    height: 100vh;
-    width: 100vw;
-    gap: 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  padding: 24px;
+  gap: 0;
 }
 
 .logo {
-    height: 16vw;
-    margin: 32px 0px;
+  max-width: 70px;
+  height: auto;
+  margin-bottom: 40px;
+  filter: invert(1);
+  opacity: 0.8;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.input {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 14px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  outline: none;
+  transition: border-color var(--transition-fast);
+  width: 100%;
+}
+.input::placeholder { color: rgba(255,255,255,0.35); }
+.input:focus { border-bottom-color: #fff; }
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 16px;
+  background: #fff;
+  color: var(--ink);
+  border: none;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  width: 100%;
+}
+.btn:hover { background: var(--paper); }

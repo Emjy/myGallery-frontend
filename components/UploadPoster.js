@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
 import styles from '../styles/UploadStyle.module.css';
@@ -7,6 +8,7 @@ import { API_URL } from '../lib/api';
 const COMPRESS_OPTS = { maxSizeMB: 4.9, maxWidthOrHeight: 1920, useWebWorker: true, fileType: 'image/jpeg' };
 
 export default function UploadPoster() {
+  const token = useSelector((state) => state.user.value.token);
   const fileRef = useRef();
   const [queue, setQueue] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,7 +35,7 @@ export default function UploadPoster() {
       const fd = new FormData();
       fd.append('file', item.file);
       fd.append('posterName', item.fields.posterName || '');
-      await axios.post(`${API_URL}/posters/`, fd);
+      await axios.post(`${API_URL}/posters/`, fd, { headers: { Authorization: token } });
       count++;
       setDone(count);
     }

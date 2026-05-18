@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
 import styles from '../styles/UploadStyle.module.css';
@@ -7,6 +8,7 @@ import { API_URL } from '../lib/api';
 const COMPRESS_OPTS = { maxSizeMB: 4.9, maxWidthOrHeight: 1920, useWebWorker: true, fileType: 'image/jpeg' };
 
 export default function UploadExpo() {
+  const token = useSelector((state) => state.user.value.token);
   const fileRef = useRef();
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState('');
@@ -46,7 +48,7 @@ export default function UploadExpo() {
     fd.append('endDate', endDate);
     fd.append('description', description);
     try {
-      await axios.post(`${API_URL}/expositions/`, fd);
+      await axios.post(`${API_URL}/expositions/`, fd, { headers: { Authorization: token } });
       setFile(null); setPreview(''); setExpoName(''); setAuteur('');
       setAdresse(''); setStartDate(''); setEndDate(''); setDescription('');
       setSuccess(true);

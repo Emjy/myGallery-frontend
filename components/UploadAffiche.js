@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
 import styles from '../styles/UploadStyle.module.css';
@@ -41,6 +42,7 @@ function useQueue(onUpload) {
 }
 
 export default function UploadAffiche() {
+  const token = useSelector((state) => state.user.value.token);
   const fileRef = useRef();
   const [over, setOver] = useState(false);
 
@@ -49,7 +51,7 @@ export default function UploadAffiche() {
     fd.append('file', item.file);
     fd.append('filmName', item.fields.filmName || '');
     fd.append('realName', item.fields.realName || '');
-    await axios.post(`${API_URL}/affiches/`, fd);
+    await axios.post(`${API_URL}/affiches/`, fd, { headers: { Authorization: token } });
   });
 
   const handleDrop = (e) => { e.preventDefault(); setOver(false); addFiles(e.dataTransfer.files); };

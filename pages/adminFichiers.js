@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/router";
+import { useSelector } from 'react-redux';
 import { API_URL } from "../lib/api";
 
 //style
@@ -23,6 +24,7 @@ import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded
 import CustomSnackbar from '../components/CustomSnackBar';
 
 export default function adminFichiers() {
+    const token = useSelector((state) => state.user.value.token);
 
     const [affichesData, setAffichesData] = useState([]);
     const [postersData, setPostersData] = useState([]);
@@ -107,6 +109,7 @@ export default function adminFichiers() {
     const deleteAffiche = (afficheId) => {
         fetch(`${API_URL}/affiches/${afficheId}`, {
             method: 'POST',
+            headers: { Authorization: token },
         })
             .then(response => response.json())
             .then(data => {
@@ -129,6 +132,7 @@ export default function adminFichiers() {
     const deletePoster = (posterId) => {
         fetch(`${API_URL}/posters/${posterId}`, {
             method: 'POST',
+            headers: { Authorization: token },
         })
             .then(response => response.json())
             .then(data => {
@@ -151,6 +155,7 @@ export default function adminFichiers() {
     const deletePhoto = (photoId) => {
         fetch(`${API_URL}/photos/${photoId}`, {
             method: 'POST',
+            headers: { Authorization: token },
         })
             .then(response => response.json())
             .then(data => {
@@ -173,6 +178,7 @@ export default function adminFichiers() {
     const deleteTableau = (tableauId) => {
         fetch(`${API_URL}/tableaux/${tableauId}`, {
             method: 'POST',
+            headers: { Authorization: token },
         })
             .then(response => response.json())
             .then(data => {
@@ -195,6 +201,7 @@ export default function adminFichiers() {
     const deleteExpo = (expoId) => {
         fetch(`${API_URL}/expositions/${expoId}`, {
             method: 'POST',
+            headers: { Authorization: token },
         })
             .then(response => response.json())
             .then(data => {

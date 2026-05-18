@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
 import styles from '../styles/UploadStyle.module.css';
@@ -7,6 +8,7 @@ import { API_URL } from '../lib/api';
 const COMPRESS_OPTS = { maxSizeMB: 4.9, maxWidthOrHeight: 1920, useWebWorker: true, fileType: 'image/jpeg' };
 
 export default function UploadTableau() {
+  const token = useSelector((state) => state.user.value.token);
   const fileRef = useRef();
   const [queue, setQueue] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -37,7 +39,7 @@ export default function UploadTableau() {
       fd.append('auteur', item.fields.auteur || '');
       fd.append('prix', item.fields.prix || '');
       fd.append('description', item.fields.description || '');
-      await axios.post(`${API_URL}/tableaux/`, fd);
+      await axios.post(`${API_URL}/tableaux/`, fd, { headers: { Authorization: token } });
       count++;
       setDone(count);
     }
